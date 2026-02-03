@@ -133,7 +133,7 @@ export const PROJECTS: Project[] = [
     name: 'Geita Small-Scale Gold',
     country: 'Tanzania',
     mineralType: 'Gold',
-    status: 'In-Review',
+    status: 'Under Verification',
     submitterId: 'u2',
     proofPack: {
       miningLicense: true,

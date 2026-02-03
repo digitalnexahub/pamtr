@@ -79,6 +79,8 @@ export default function Home() {
       name: '',
       country: '',
       mineralType: '',
+      email: '',
+      phone: '',
       proofPack: {
         miningLicense: false,
         govAuthorization: false,

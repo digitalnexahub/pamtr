@@ -1026,7 +1026,7 @@ export default function Dashboard() {
       case 'verifier':
         return renderVerifierContent();
       default:
-        if (currentUser.role !== 'admin' && !currentUser.isVerified) {
+        if (!currentUser.isVerified) {
             return (
                 <div className="flex flex-col items-center justify-center h-[60vh] text-center p-8">
                     <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mb-4">
