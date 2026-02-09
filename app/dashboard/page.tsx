@@ -1330,12 +1330,12 @@ export default function Dashboard() {
 
         return (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                <h2 className="text-2xl font-bold text-white">Compliance & Rules</h2>
                <button 
                  onClick={handleRunAIComplianceScan}
                  disabled={isRunningAI}
-                 className="btn goldGlass text-sm flex items-center gap-2 disabled:opacity-50"
+                 className="btn goldGlass text-sm flex items-center gap-2 disabled:opacity-50 w-full md:w-auto justify-center"
                >
                  {isRunningAI ? <RefreshCw className="w-4 h-4 animate-spin"/> : <BrainCircuit className="w-4 h-4"/>}
                  {isRunningAI ? 'Running AI Scan...' : 'Run AI Compliance Audit'}
@@ -1344,7 +1344,7 @@ export default function Dashboard() {
             
             {/* Active Reviews Section */}
             <div className="bg-[var(--panel)] border border-[var(--line)] rounded-xl overflow-hidden mb-6">
-              <div className="p-4 border-b border-[var(--line)] bg-[var(--bg)]/50 flex justify-between items-center">
+              <div className="p-4 border-b border-[var(--line)] bg-[var(--bg)]/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                  <h3 className="font-bold text-white">Active Compliance Reviews</h3>
                  <span className="text-xs text-[var(--muted)]">{projectsUnderCompliance.length} Projects Pending</span>
               </div>
@@ -1357,9 +1357,9 @@ export default function Dashboard() {
                     const aiResult = aiAnalysisResults[project.id];
                     return (
                       <div key={project.id} className="p-4">
-                        <div className="flex justify-between items-start mb-4">
+                        <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
                           <div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex flex-wrap items-center gap-2">
                               <h4 className="font-bold text-white text-lg">{project.name}</h4>
                               {aiResult && (
                                 <span className={clsx("px-2 py-0.5 rounded text-xs border flex items-center gap-1", 
@@ -1374,7 +1374,7 @@ export default function Dashboard() {
                               Submitter: {project.submitterId} • Country: {project.country}
                             </div>
                           </div>
-                          <div className="text-right">
+                          <div className="text-left md:text-right w-full md:w-auto">
                             <span className={clsx("px-2 py-1 rounded text-xs border uppercase", 
                               project.status === 'Submitted' ? "bg-blue-500/10 border-blue-500/20 text-blue-400" : "bg-[var(--gold)]/10 border-[var(--gold)]/20 text-[var(--gold)]"
                             )}>
@@ -1472,14 +1472,14 @@ export default function Dashboard() {
                  <h3 className="text-lg font-bold text-white mb-4">Pending Review</h3>
                  {pendingEURule ? (
                     <div className="p-4 border border-[var(--gold)]/20 bg-[var(--gold)]/5 rounded text-[var(--gold2)] text-sm">
-                      <div className="flex justify-between items-start gap-4">
+                      <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                         <div>
                           <div className="font-bold mb-1 flex items-center gap-2"><Sparkles className="w-3 h-3"/> New Regulation Detected</div>
                           New EU Supply Chain Due Diligence directive integration pending approval.
                         </div>
                         <button 
                           onClick={handleIntegrateEURule}
-                          className="btn primary text-xs shrink-0"
+                          className="btn primary text-xs shrink-0 w-full md:w-auto"
                         >
                           Approve & Integrate
                         </button>
