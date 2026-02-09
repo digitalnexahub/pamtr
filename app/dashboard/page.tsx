@@ -1171,32 +1171,34 @@ export default function Dashboard() {
       case 'projects':
         return (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                <h2 className="text-2xl font-bold text-white">Mineral Projects</h2>
-               <div className="flex gap-2">
-                 <div className="relative">
+               <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
+                 <div className="relative w-full md:w-auto">
                    <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted2)]" />
                    <input 
                      type="text" 
                      placeholder="Search projects..." 
-                     className="pl-9 pr-4 py-2 bg-[var(--panel)] border border-[var(--line)] rounded-lg text-sm text-white w-64 focus:border-[var(--gold)] outline-none"
+                     className="w-full md:w-64 pl-9 pr-4 py-2 bg-[var(--panel)] border border-[var(--line)] rounded-lg text-sm text-white focus:border-[var(--gold)] outline-none"
                      value={searchQuery}
                      onChange={(e) => setSearchQuery(e.target.value)}
                    />
                  </div>
-                 <select 
-                   className="bg-[var(--panel)] border border-[var(--line)] rounded-lg text-sm text-[var(--muted)] px-3 outline-none focus:border-[var(--gold)]"
-                   value={filterStatus}
-                   onChange={(e) => setFilterStatus(e.target.value)}
-                 >
-                   <option value="All">All Statuses</option>
-                   <option value="Draft">Draft</option>
-                   <option value="Submitted">Submitted</option>
-                   <option value="Under Verification">Under Verification</option>
-                   <option value="Verified">Verified</option>
-                   <option value="Live">Live</option>
-                 </select>
-                 <button className="btn secondary text-sm">Export CSV</button>
+                 <div className="flex gap-2">
+                   <select 
+                     className="flex-1 md:flex-none bg-[var(--panel)] border border-[var(--line)] rounded-lg text-sm text-[var(--muted)] px-3 py-2 outline-none focus:border-[var(--gold)]"
+                     value={filterStatus}
+                     onChange={(e) => setFilterStatus(e.target.value)}
+                   >
+                     <option value="All">All Statuses</option>
+                     <option value="Draft">Draft</option>
+                     <option value="Submitted">Submitted</option>
+                     <option value="Under Verification">Under Verification</option>
+                     <option value="Verified">Verified</option>
+                     <option value="Live">Live</option>
+                   </select>
+                   <button className="flex-1 md:flex-none btn secondary text-sm">Export CSV</button>
+                 </div>
                </div>
             </div>
             <div className="bg-[var(--panel)] border border-[var(--line)] rounded-xl overflow-hidden">
@@ -3052,60 +3054,111 @@ const ProjectTable = ({ projects }: { projects: Project[] }) => {
   const router = useRouter();
   
   return (
-  <div className="overflow-x-auto">
-  <table className="w-full text-left min-w-[800px]">
-    <thead className="bg-[var(--bg)] text-[var(--muted)] text-xs uppercase">
-      <tr>
-        <th className="p-4">Project Name</th>
-        <th className="p-4">Country</th>
-        <th className="p-4">Status</th>
-        <th className="p-4">Proof Score</th>
-        <th className="p-4">Last Updated</th>
-        <th className="p-4 text-right">Actions</th>
-      </tr>
-    </thead>
-    <tbody className="text-sm text-[var(--muted2)]">
-      {projects.map(project => (
-        <tr 
-          key={project.id} 
-          className="border-t border-[var(--line)] hover:bg-[var(--panel2)] cursor-pointer transition-colors"
-          onClick={() => router.push(`/project/${project.id}`)}
-        >
-          <td className="p-4 font-bold text-white">{project.name}</td>
-          <td className="p-4">{project.country}</td>
-          <td className="p-4">
-            <span className={clsx("px-2 py-1 rounded text-xs border uppercase", 
-               project.status === 'Live' ? "bg-green-500/10 border-green-500/20 text-green-400" : 
-               project.status === 'Verified' ? "bg-[var(--gold)]/10 border-[var(--gold)]/20 text-[var(--gold)]" :
-               "bg-[var(--panel2)] border-[var(--line)] text-[var(--muted)]"
-            )}>{project.status}</span>
-          </td>
-          <td className="p-4">
-            <div className="w-full bg-[var(--panel2)] rounded-full h-1.5 w-24">
-              <div className="bg-[var(--gold)] h-1.5 rounded-full" style={{ width: `${project.proofPack.completionPercentage}%` }}></div>
+    <>
+      {/* Mobile View - Cards */}
+      <div className="md:hidden space-y-4 p-4">
+        {projects.map(project => (
+          <div 
+            key={project.id} 
+            className="bg-[var(--panel2)] border border-[var(--line)] rounded-xl p-4 cursor-pointer hover:border-[var(--gold)]/50 transition-all"
+            onClick={() => router.push(`/project/${project.id}`)}
+          >
+            <div className="flex justify-between items-start mb-3">
+              <div>
+                <h3 className="font-bold text-white text-lg">{project.name}</h3>
+                <div className="text-sm text-[var(--muted)]">{project.country}</div>
+              </div>
+              <span className={clsx("px-2 py-1 rounded text-xs border uppercase font-bold", 
+                 project.status === 'Live' ? "bg-green-500/10 border-green-500/20 text-green-400" : 
+                 project.status === 'Verified' ? "bg-[var(--gold)]/10 border-[var(--gold)]/20 text-[var(--gold)]" :
+                 "bg-[var(--bg)] border-[var(--line)] text-[var(--muted)]"
+              )}>{project.status}</span>
             </div>
-          </td>
-          <td className="p-4 text-[var(--muted)]">{new Date(project.updatedAt).toLocaleDateString()}</td>
-          <td className="p-4 text-right">
-            <button 
-              className="p-2 hover:bg-[var(--bg)] rounded-full text-[var(--muted)] hover:text-[var(--gold)] transition-colors"
-              title="View Project Details"
-              onClick={(e) => {
-                e.stopPropagation();
-                router.push(`/project/${project.id}`);
-              }}
-            >
-              <Eye className="w-4 h-4" />
-            </button>
-          </td>
-        </tr>
-      ))}
-      {projects.length === 0 && (
-        <tr><td colSpan={6} className="p-8 text-center text-[var(--muted)]">No projects found.</td></tr>
-      )}
-    </tbody>
-  </table>
-  </div>
+            
+            <div className="grid grid-cols-2 gap-4 mb-3">
+              <div>
+                <div className="text-xs text-[var(--muted2)] uppercase mb-1">Proof Score</div>
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 bg-[var(--bg)] rounded-full h-2">
+                    <div className="bg-[var(--gold)] h-2 rounded-full" style={{ width: `${project.proofPack.completionPercentage}%` }}></div>
+                  </div>
+                  <span className="text-xs font-bold text-[var(--gold)]">{project.proofPack.completionPercentage}%</span>
+                </div>
+              </div>
+              <div>
+                <div className="text-xs text-[var(--muted2)] uppercase mb-1">Last Updated</div>
+                <div className="text-sm text-[var(--muted)]">{new Date(project.updatedAt).toLocaleDateString()}</div>
+              </div>
+            </div>
+
+            <div className="flex justify-end pt-2 border-t border-[var(--line)]">
+               <button className="text-sm text-[var(--gold)] flex items-center gap-1">
+                 View Details <ArrowRight className="w-4 h-4" />
+               </button>
+            </div>
+          </div>
+        ))}
+        {projects.length === 0 && (
+          <div className="text-center text-[var(--muted)] py-8">No projects found.</div>
+        )}
+      </div>
+
+      {/* Desktop View - Table */}
+      <div className="hidden md:block overflow-x-auto">
+        <table className="w-full text-left min-w-[800px]">
+          <thead className="bg-[var(--bg)] text-[var(--muted)] text-xs uppercase">
+            <tr>
+              <th className="p-4">Project Name</th>
+              <th className="p-4">Country</th>
+              <th className="p-4">Status</th>
+              <th className="p-4">Proof Score</th>
+              <th className="p-4">Last Updated</th>
+              <th className="p-4 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="text-sm text-[var(--muted2)]">
+            {projects.map(project => (
+              <tr 
+                key={project.id} 
+                className="border-t border-[var(--line)] hover:bg-[var(--panel2)] cursor-pointer transition-colors"
+                onClick={() => router.push(`/project/${project.id}`)}
+              >
+                <td className="p-4 font-bold text-white">{project.name}</td>
+                <td className="p-4">{project.country}</td>
+                <td className="p-4">
+                  <span className={clsx("px-2 py-1 rounded text-xs border uppercase", 
+                     project.status === 'Live' ? "bg-green-500/10 border-green-500/20 text-green-400" : 
+                     project.status === 'Verified' ? "bg-[var(--gold)]/10 border-[var(--gold)]/20 text-[var(--gold)]" :
+                     "bg-[var(--panel2)] border-[var(--line)] text-[var(--muted)]"
+                  )}>{project.status}</span>
+                </td>
+                <td className="p-4">
+                  <div className="w-full bg-[var(--panel2)] rounded-full h-1.5 w-24">
+                    <div className="bg-[var(--gold)] h-1.5 rounded-full" style={{ width: `${project.proofPack.completionPercentage}%` }}></div>
+                  </div>
+                </td>
+                <td className="p-4 text-[var(--muted)]">{new Date(project.updatedAt).toLocaleDateString()}</td>
+                <td className="p-4 text-right">
+                  <button 
+                    className="p-2 hover:bg-[var(--bg)] rounded-full text-[var(--muted)] hover:text-[var(--gold)] transition-colors"
+                    title="View Project Details"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      router.push(`/project/${project.id}`);
+                    }}
+                  >
+                    <Eye className="w-4 h-4" />
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {projects.length === 0 && (
+              <tr><td colSpan={6} className="p-8 text-center text-[var(--muted)]">No projects found.</td></tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 };
 
