@@ -1103,7 +1103,7 @@ export default function Dashboard() {
         return (
           <div className="space-y-6">
             <h2 className="text-2xl font-bold text-white">System Overview</h2>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <StatCard label="Total Projects" value={projects.length} onClick={() => setActiveTab('projects')} />
               <StatCard label="Live Projects" value={projects.filter(p => p.status === 'Live').length} onClick={() => { setActiveTab('projects'); setFilterStatus('Live'); }} />
               <StatCard label="Verified Seals" value={projects.filter(p => p.seal).length} onClick={() => setActiveTab('seals')} />
