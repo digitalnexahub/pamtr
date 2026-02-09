@@ -1179,7 +1179,7 @@ export default function Dashboard() {
                    <input 
                      type="text" 
                      placeholder="Search projects..." 
-                     className="w-full md:w-64 pl-9 pr-4 py-2 bg-[var(--panel)] border border-[var(--line)] rounded-lg text-sm text-white focus:border-[var(--gold)] outline-none"
+                     className="w-full md:w-64 pl-12 pr-4 py-2 bg-[var(--panel)] border border-[var(--line)] rounded-lg text-sm text-white focus:border-[var(--gold)] outline-none"
                      value={searchQuery}
                      onChange={(e) => setSearchQuery(e.target.value)}
                    />
