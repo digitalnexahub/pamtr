@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Upload, CheckCircle, FileText } from "lucide-react";
+import { ArrowRight, Upload, CheckCircle, FileText, Menu, X } from "lucide-react";
 import { usePAMTR } from "@/lib/context";
 import { Project } from "@/lib/types";
 
 export default function Home() {
   const [isLegalOpen, setIsLegalOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { projects, currentUser, announcements, addProject, countries } = usePAMTR();
   const [isBannerVisible, setIsBannerVisible] = useState(true);
   
@@ -150,7 +151,9 @@ export default function Home() {
                 <small>Pan‑African Mineral Trust Registry</small>
               </div>
             </div>
-            <div className="links">
+            
+            {/* Desktop Links */}
+            <div className="links !hidden md:!flex">
               <a href="#adoption">Adoption Kit</a>
               <a href="#nodes">Country Nodes</a>
               <a href="#charter">Charter</a>
@@ -174,7 +177,48 @@ export default function Home() {
                 Request Access
               </button>
             </div>
+
+            {/* Mobile Menu Toggle */}
+            <button 
+              className="md:hidden text-[var(--muted)] hover:text-white p-2 ml-auto"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle Menu"
+            >
+              {isMobileMenuOpen ? <X /> : <Menu />}
+            </button>
           </div>
+
+          {/* Mobile Menu Dropdown */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden py-4 border-t border-[var(--line)] flex flex-col gap-4 animate-in slide-in-from-top-2 fade-in">
+              <div className="grid grid-cols-2 gap-4">
+                 <a href="#adoption" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Adoption Kit</a>
+                 <a href="#nodes" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Country Nodes</a>
+                 <a href="#charter" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Charter</a>
+                 <a href="#proof" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Proof Stack™</a>
+                 <a href="#seal" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Trust Seal™</a>
+                 <a href="#standards" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Standards</a>
+                 <a href="#governance" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Governance</a>
+                 <Link href="/verify" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Verify</Link>
+                 <a href="#partners" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Partners</a>
+                 <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--gold)] hover:text-white font-bold">{currentUser?.role !== 'public' ? 'Dashboard' : 'Sign In'}</Link>
+              </div>
+              <div className="flex gap-2 pt-2 border-t border-[var(--line)]">
+                 <button 
+                    className="btn secondary flex-1 justify-center" 
+                    onClick={() => { setIsLegalOpen(true); setIsMobileMenuOpen(false); }}
+                  >
+                    Legal
+                  </button>
+                  <button 
+                    className="btn goldGlass shimmer flex-1 justify-center"
+                    onClick={() => { setIsRegisterOpen(true); setIsMobileMenuOpen(false); }}
+                  >
+                    Request Access
+                  </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

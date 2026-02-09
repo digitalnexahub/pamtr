@@ -1971,13 +1971,13 @@ export default function Dashboard() {
       case 'audit':
         return (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <h2 className="text-2xl font-bold text-white">System Audit Logs</h2>
-              <button onClick={handleExportAuditLogs} className="btn secondary text-sm flex items-center gap-2">
+              <button onClick={handleExportAuditLogs} className="btn secondary text-sm flex items-center gap-2 w-full md:w-auto justify-center">
                 <Download className="w-4 h-4" /> Export CSV
               </button>
             </div>
-            <div className="bg-[var(--panel)] border border-[var(--line)] rounded-xl overflow-hidden">
+            <div className="bg-[var(--panel)] border border-[var(--line)] rounded-xl overflow-hidden p-4 md:p-0">
               <AuditLogTable logs={auditLogs} />
             </div>
           </div>
@@ -2139,7 +2139,7 @@ export default function Dashboard() {
       case 'policies':
         return (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <h2 className="text-2xl font-bold text-white">System Policies</h2>
               <button 
                 onClick={() => {
@@ -2147,7 +2147,7 @@ export default function Dashboard() {
                   setEditingPolicyId(null);
                   setNewPolicy({ title: '', content: '', status: 'Draft' });
                 }}
-                className="btn goldGlass text-sm flex items-center gap-2"
+                className="btn goldGlass text-sm flex items-center gap-2 w-full md:w-auto justify-center"
               >
                 {isAddingPolicy ? <X className="w-4 h-4"/> : <Plus className="w-4 h-4"/>}
                 {isAddingPolicy ? 'Cancel' : 'Add Policy'}
@@ -2155,7 +2155,7 @@ export default function Dashboard() {
             </div>
 
             {isAddingPolicy && (
-              <div className="bg-[var(--panel)] border border-[var(--gold)]/30 p-6 rounded-xl animate-in fade-in slide-in-from-top-4 mb-6">
+              <div className="bg-[var(--panel)] border border-[var(--gold)]/30 p-4 md:p-6 rounded-xl animate-in fade-in slide-in-from-top-4 mb-6">
                 <h3 className="text-lg font-bold text-white mb-4">{editingPolicyId ? 'Edit Policy' : 'Create New Policy'}</h3>
                 <div className="space-y-4 mb-4">
                   <input 
@@ -2188,7 +2188,7 @@ export default function Dashboard() {
             <div className="space-y-4">
               {policies.map(policy => (
                 <div key={policy.id} className={clsx(
-                  "bg-[var(--panel)] border p-6 rounded-xl relative group transition-colors",
+                  "bg-[var(--panel)] border p-4 md:p-6 rounded-xl relative group transition-colors",
                   editingPolicyId === policy.id ? "border-[var(--gold)] bg-[var(--gold)]/5" : "border-[var(--line)]"
                 )}>
                   <div className="flex justify-between items-start mb-2">
@@ -2201,7 +2201,7 @@ export default function Dashboard() {
                   <div className="flex justify-between items-center">
                     <div className="text-xs text-[var(--muted)]">Last Updated: {policy.lastUpdated}</div>
                     
-                    <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
                       <button 
                         onClick={() => handleEditPolicy(policy)}
                         className="p-2 hover:bg-[var(--bg)] rounded text-[var(--muted)] hover:text-white"
@@ -2226,7 +2226,7 @@ export default function Dashboard() {
       case 'announcements':
         return (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <h2 className="text-2xl font-bold text-white">Announcements</h2>
               <button 
                 onClick={() => {
@@ -2234,7 +2234,7 @@ export default function Dashboard() {
                    setEditingAnnouncementId(null);
                    setNewAnnouncement({ title: '', message: '', type: 'Info', startDate: '', endDate: '' });
                 }}
-                className="btn goldGlass text-sm flex items-center gap-2"
+                className="btn goldGlass text-sm flex items-center gap-2 w-full md:w-auto justify-center"
               >
                 {isAddingAnnouncement ? <X className="w-4 h-4"/> : <Plus className="w-4 h-4"/>}
                 {isAddingAnnouncement ? 'Cancel' : 'Post Announcement'}
@@ -2242,7 +2242,7 @@ export default function Dashboard() {
             </div>
 
             {isAddingAnnouncement && (
-              <div className="bg-[var(--panel)] border border-[var(--gold)]/30 p-6 rounded-xl animate-in fade-in slide-in-from-top-4 mb-6">
+              <div className="bg-[var(--panel)] border border-[var(--gold)]/30 p-4 md:p-6 rounded-xl animate-in fade-in slide-in-from-top-4 mb-6">
                 <h3 className="text-lg font-bold text-white mb-4">{editingAnnouncementId ? 'Edit Announcement' : 'Post New Announcement'}</h3>
                 <div className="space-y-4 mb-4">
                   <input 
@@ -2295,31 +2295,33 @@ export default function Dashboard() {
 
             <div className="space-y-4">
               {announcements.map(ann => (
-                <div key={ann.id} className={clsx("bg-[var(--panel)] border border-[var(--line)] p-6 rounded-xl flex gap-4 items-start relative group transition-all",
+                <div key={ann.id} className={clsx("bg-[var(--panel)] border border-[var(--line)] p-4 md:p-6 rounded-xl flex flex-col md:flex-row gap-4 items-start relative group transition-all",
                    ann.status === 'Inactive' && "opacity-75 grayscale-[0.5]"
                 )}>
-                  <div className={clsx("w-10 h-10 rounded-full flex items-center justify-center shrink-0", 
-                    ann.type === 'Alert' ? "bg-red-900/20 text-red-500" : 
-                    ann.type === 'Success' ? "bg-green-900/20 text-green-500" : "bg-[var(--gold)]/20 text-[var(--gold)]"
-                  )}>
-                    <Megaphone className="w-5 h-5" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-1">
-                        <h3 className="font-bold text-white">{ann.title}</h3>
-                        <span className={clsx("text-[10px] uppercase px-2 py-0.5 rounded border",
-                            ann.status === 'Active' ? "border-green-500/20 text-green-400 bg-green-500/10" : "border-[var(--line)] text-[var(--muted)] bg-[var(--bg)]"
-                        )}>{ann.status}</span>
+                  <div className="flex gap-4 flex-1 w-full">
+                    <div className={clsx("w-10 h-10 rounded-full flex items-center justify-center shrink-0", 
+                      ann.type === 'Alert' ? "bg-red-900/20 text-red-500" : 
+                      ann.type === 'Success' ? "bg-green-900/20 text-green-500" : "bg-[var(--gold)]/20 text-[var(--gold)]"
+                    )}>
+                      <Megaphone className="w-5 h-5" />
                     </div>
-                    <p className="text-[var(--muted)] text-sm mb-2">{ann.message}</p>
-                    <div className="flex gap-4 text-xs text-[var(--muted2)]">
-                      <span>Posted: {ann.date}</span>
-                      {ann.startDate && <span>Start: {ann.startDate}</span>}
-                      {ann.endDate && <span>End: {ann.endDate}</span>}
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-1">
+                          <h3 className="font-bold text-white">{ann.title}</h3>
+                          <span className={clsx("text-[10px] uppercase px-2 py-0.5 rounded border",
+                              ann.status === 'Active' ? "border-green-500/20 text-green-400 bg-green-500/10" : "border-[var(--line)] text-[var(--muted)] bg-[var(--bg)]"
+                          )}>{ann.status}</span>
+                      </div>
+                      <p className="text-[var(--muted)] text-sm mb-2">{ann.message}</p>
+                      <div className="flex flex-wrap gap-4 text-xs text-[var(--muted2)]">
+                        <span>Posted: {ann.date}</span>
+                        {ann.startDate && <span>Start: {ann.startDate}</span>}
+                        {ann.endDate && <span>End: {ann.endDate}</span>}
+                      </div>
                     </div>
                   </div>
                   
-                  <div className="flex flex-col items-end gap-3">
+                  <div className="flex flex-row md:flex-col items-center md:items-end gap-3 w-full md:w-auto justify-end border-t md:border-t-0 border-[var(--line)] pt-4 md:pt-0 mt-2 md:mt-0">
                      {/* Toggle Switch */}
                      <div 
                        onClick={(e) => { e.stopPropagation(); handleToggleAnnouncementStatus(ann.id); }}
@@ -2333,7 +2335,7 @@ export default function Dashboard() {
                         )}></span>
                      </div>
 
-                     <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                     <div className="flex gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
                         <button 
                           onClick={() => handleEditAnnouncement(ann)}
                           className="p-2 hover:bg-[var(--bg)] rounded text-[var(--muted)] hover:text-white"
@@ -3246,26 +3248,45 @@ const ProjectTable = ({ projects }: { projects: Project[] }) => {
 };
 
 const AuditLogTable = ({ logs }: { logs: AuditLog[] }) => (
-  <div className="overflow-x-auto">
-    <table className="w-full text-left text-sm min-w-[600px]">
-      <thead className="text-[var(--muted)] border-b border-[var(--line)]">
-        <tr>
-          <th className="pb-2 pl-4">Time</th>
-          <th className="pb-2">User</th>
-          <th className="pb-2">Action</th>
-          <th className="pb-2">Details</th>
-        </tr>
-      </thead>
-      <tbody className="text-[var(--muted2)]">
-        {logs.map(log => (
-          <tr key={log.id} className="border-b border-[var(--line)]">
-            <td className="py-3 pl-4 font-mono text-xs">{new Date(log.timestamp).toLocaleTimeString()}</td>
-            <td className="py-3">{log.userId}</td>
-            <td className="py-3 text-white">{log.action}</td>
-            <td className="py-3 text-[var(--muted)] truncate max-w-xs">{log.details}</td>
+  <div className="w-full">
+    {/* Desktop Table */}
+    <div className="hidden md:block overflow-x-auto">
+      <table className="w-full text-left text-sm min-w-[600px]">
+        <thead className="text-[var(--muted)] border-b border-[var(--line)]">
+          <tr>
+            <th className="pb-2 pl-4">Time</th>
+            <th className="pb-2">User</th>
+            <th className="pb-2">Action</th>
+            <th className="pb-2">Details</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody className="text-[var(--muted2)]">
+          {logs.map(log => (
+            <tr key={log.id} className="border-b border-[var(--line)]">
+              <td className="py-3 pl-4 font-mono text-xs">{new Date(log.timestamp).toLocaleTimeString()}</td>
+              <td className="py-3">{log.userId}</td>
+              <td className="py-3 text-white">{log.action}</td>
+              <td className="py-3 text-[var(--muted)] truncate max-w-xs">{log.details}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    {/* Mobile Card View */}
+    <div className="md:hidden space-y-3">
+      {logs.map(log => (
+        <div key={log.id} className="bg-[var(--bg)] border border-[var(--line)] rounded-lg p-3">
+          <div className="flex justify-between items-start mb-2">
+            <span className="font-bold text-white text-sm">{log.action}</span>
+            <span className="font-mono text-xs text-[var(--muted)]">{new Date(log.timestamp).toLocaleTimeString()}</span>
+          </div>
+          <p className="text-xs text-[var(--muted2)] mb-2 break-words">{log.details}</p>
+          <div className="text-xs text-[var(--muted)] flex justify-between items-center border-t border-[var(--line)] pt-2 mt-2">
+            <span>User: <span className="text-[var(--gold)]">{log.userId}</span></span>
+          </div>
+        </div>
+      ))}
+    </div>
   </div>
 );
