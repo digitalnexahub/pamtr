@@ -35,7 +35,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[var(--bg)] flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md bg-[var(--panel)] border border-[var(--line)] rounded-2xl p-8 shadow-2xl">
+      <div className="w-full max-w-md bg-[var(--panel)] border border-[var(--line)] rounded-2xl p-6 md:p-8 shadow-2xl">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-[var(--gold)]/10 text-[var(--gold)] mb-4">
             <Lock className="w-6 h-6" />

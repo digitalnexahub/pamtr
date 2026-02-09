@@ -50,21 +50,21 @@ export default function VerifyPage() {
     <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] font-sans selection:bg-[var(--gold)]/30">
       {/* Navigation */}
       <nav className="fixed top-0 w-full z-50 border-b border-[var(--line)] bg-[var(--bg)]/80 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
             <div className="w-8 h-8 rounded bg-gradient-to-br from-[var(--gold2)] to-[var(--gold3)] shadow-[0_0_15px_rgba(200,162,74,0.3)] group-hover:shadow-[0_0_25px_rgba(200,162,74,0.5)] transition-all duration-500"></div>
             <div>
               <h1 className="font-bold text-lg tracking-tight text-white">PAMTR™</h1>
-              <p className="text-[10px] uppercase tracking-widest text-[var(--gold)] font-medium">Public Verification</p>
+              <p className="hidden sm:block text-[10px] uppercase tracking-widest text-[var(--gold)] font-medium">Public Verification</p>
             </div>
           </Link>
           <Link href="/" className="text-sm text-[var(--muted)] hover:text-[var(--gold)] transition-colors">
-            Back to Home
+            Back<span className="hidden sm:inline"> to Home</span>
           </Link>
         </div>
       </nav>
 
-      <main className="pt-32 pb-20 px-6 max-w-4xl mx-auto">
+      <main className="pt-24 md:pt-32 pb-20 px-4 md:px-6 max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center p-3 rounded-full bg-[var(--panel)] border border-[var(--line)] mb-6 shadow-xl">
             <Shield className="w-8 h-8 text-[var(--gold)]" />
@@ -86,7 +86,7 @@ export default function VerifyPage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Enter Receipt ID (e.g., RCPT-...) or TX Hash (0x...)"
-              className="w-full h-16 pl-6 pr-16 bg-[var(--panel)]/80 border border-[var(--line)] rounded-2xl text-lg text-white placeholder:text-[var(--muted2)] focus:outline-none focus:border-[var(--gold)]/50 focus:ring-4 focus:ring-[var(--gold)]/10 transition-all shadow-2xl"
+              className="w-full h-14 md:h-16 pl-6 pr-16 bg-[var(--panel)]/80 border border-[var(--line)] rounded-2xl text-base md:text-lg text-white placeholder:text-[var(--muted2)] focus:outline-none focus:border-[var(--gold)]/50 focus:ring-4 focus:ring-[var(--gold)]/10 transition-all shadow-2xl"
             />
             <button
               type="submit"

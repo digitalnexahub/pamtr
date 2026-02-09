@@ -150,22 +150,22 @@ export default function ProjectPage() {
     <div className="min-h-screen bg-[var(--bg)] text-[var(--muted2)] font-sans selection:bg-[var(--gold)]/30 pb-20">
       {/* Nav */}
       <nav className="border-b border-[var(--line)] bg-[var(--bg)]/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
              <div className="w-8 h-8 rounded bg-gradient-to-br from-[var(--gold)] to-[var(--gold2)]"></div>
              <span className="font-bold text-lg text-white">PAMTR™</span>
           </Link>
-          <div className="flex gap-4">
-            <Link href="/verify" className="text-sm text-[var(--muted)] hover:text-[var(--gold)]">Verify Receipt</Link>
-            <Link href="/dashboard" className="text-sm text-[var(--muted)] hover:text-[var(--gold)]">Portal</Link>
+          <div className="flex gap-3 md:gap-4">
+            <Link href="/verify" className="text-xs md:text-sm text-[var(--muted)] hover:text-[var(--gold)] flex items-center">Verify<span className="hidden sm:inline">&nbsp;Receipt</span></Link>
+            <Link href="/dashboard" className="text-xs md:text-sm text-[var(--muted)] hover:text-[var(--gold)] flex items-center">Portal</Link>
           </div>
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-6 pt-12">
+      <main className="max-w-7xl mx-auto px-4 md:px-6 pt-6 md:pt-12">
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-start gap-8 mb-12">
-          <div>
+        <div className="flex flex-col md:flex-row justify-between items-start gap-6 md:gap-8 mb-8 md:mb-12">
+          <div className="w-full md:w-auto">
             <div className="flex items-center gap-3 mb-2">
               <span className="px-3 py-1 rounded-full bg-[var(--panel2)] text-xs font-mono text-[var(--muted)] border border-[var(--line)]">
                 {project.id}
@@ -186,7 +186,7 @@ export default function ProjectPage() {
 
           {/* Trust Seal Badge */}
           {project.seal && (
-            <div className="bg-gradient-to-br from-[var(--panel)] to-[var(--panel2)] p-6 rounded-2xl border border-[var(--gold)]/30 shadow-[0_0_30px_rgba(245,158,11,0.1)] flex flex-col items-center text-center max-w-xs">
+            <div className="w-full md:w-auto md:max-w-xs bg-gradient-to-br from-[var(--panel)] to-[var(--panel2)] p-6 rounded-2xl border border-[var(--gold)]/30 shadow-[0_0_30px_rgba(245,158,11,0.1)] flex flex-col items-center text-center">
               <Shield className="w-12 h-12 text-[var(--gold)] mb-3" />
               <div className="text-[var(--gold)] font-bold text-lg leading-tight mb-1">{project.seal.level}</div>
               <div className="text-xs text-[var(--muted)] uppercase tracking-wider mb-3">Trust Seal™ Issued</div>
@@ -197,9 +197,9 @@ export default function ProjectPage() {
           )}
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12">
           {/* Left Column: Proof Summary */}
-          <div className="lg:col-span-2 space-y-12">
+          <div className="md:col-span-2 space-y-8 md:space-y-12">
             
             {/* Proof Stack Summary */}
             <section>
@@ -427,8 +427,8 @@ export default function ProjectPage() {
               <div className="absolute -right-20 -top-20 w-64 h-64 bg-[var(--gold)]/10 rounded-full blur-3xl"></div>
               <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
               
-              <div className="p-8 flex-1 flex flex-col relative z-10">
-                <div className="flex items-center gap-2 mb-8">
+              <div className="p-6 md:p-8 flex-1 flex flex-col relative z-10">
+                <div className="flex items-center gap-2 mb-6 md:mb-8">
                   <div className="w-6 h-6 rounded bg-gradient-to-br from-[var(--gold)] to-[var(--gold2)]"></div>
                   <span className="font-bold text-white tracking-tight">PAMTR™</span>
                 </div>
@@ -438,9 +438,9 @@ export default function ProjectPage() {
                     {project.id}
                   </div>
                   
-                  <h2 className="text-3xl font-bold text-white mb-2 leading-tight">{project.name}</h2>
+                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">{project.name}</h2>
                   
-                  <div className="flex flex-wrap gap-3 mb-8">
+                  <div className="flex flex-wrap gap-3 mb-6 md:mb-8">
                     <span className="px-2 py-1 bg-[var(--panel2)] rounded text-xs text-[var(--muted)] border border-[var(--line)]">{project.country}</span>
                     <span className="px-2 py-1 bg-[var(--panel2)] rounded text-xs text-[var(--muted)] border border-[var(--line)]">{project.mineralType}</span>
                   </div>
@@ -509,29 +509,34 @@ export default function ProjectPage() {
 function ProofItem({ label, active, optional, verified }: { label: string, active: boolean, optional?: boolean, verified?: boolean }) {
   return (
     <div className={clsx(
-      "flex items-center justify-between p-3 rounded-lg border transition-colors",
+      "flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg border transition-colors gap-2 sm:gap-4",
       active ? "bg-[var(--panel)] border-[var(--gold)]/30" : "bg-[var(--bg)] border-[var(--line)] opacity-70"
     )}>
       <div className="flex items-center gap-3">
         {active ? (
           verified ? (
-            <CheckCircle className="w-5 h-5 text-[var(--gold)]" />
+            <CheckCircle className="w-5 h-5 text-[var(--gold)] shrink-0" />
           ) : (
-            <Clock className="w-5 h-5 text-[var(--gold)]" />
+            <Clock className="w-5 h-5 text-[var(--gold)] shrink-0" />
           )
         ) : (
-          <div className="w-5 h-5 rounded-full border-2 border-[var(--line)]" />
+          <div className="w-5 h-5 rounded-full border-2 border-[var(--line)] shrink-0" />
         )}
-        <span className={active ? "text-white" : "text-[var(--muted)]"}>
+        <span className={clsx(
+          "text-sm sm:text-base",
+          active ? "text-white" : "text-[var(--muted)]"
+        )}>
           {label} {optional && <span className="text-xs text-[var(--muted2)]">(Optional)</span>}
         </span>
       </div>
-      {active && verified && (
-        <span className="text-xs font-mono text-[var(--gold)] px-2 py-1 bg-[var(--gold)]/10 rounded">VERIFIED</span>
-      )}
-      {active && !verified && (
-        <span className="text-xs font-mono text-[var(--muted)] px-2 py-1 bg-[var(--muted)]/10 rounded border border-[var(--line)]">PENDING REVIEW</span>
-      )}
+      <div className="ml-8 sm:ml-0 self-start sm:self-auto">
+        {active && verified && (
+          <span className="text-[10px] sm:text-xs font-mono text-[var(--gold)] px-2 py-1 bg-[var(--gold)]/10 rounded">VERIFIED</span>
+        )}
+        {active && !verified && (
+          <span className="text-[10px] sm:text-xs font-mono text-[var(--muted)] px-2 py-1 bg-[var(--muted)]/10 rounded border border-[var(--line)]">PENDING REVIEW</span>
+        )}
+      </div>
     </div>
   );
 }

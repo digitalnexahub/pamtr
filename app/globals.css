@@ -295,6 +295,33 @@ input, select, textarea {
 .foot .wrap { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: center; }
 .foot a { color: rgba(255, 255, 255, 0.78); border-bottom: 1px dotted rgba(255, 255, 255, 0.26); }
 
+/* Responsive Adjustments */
+@media (max-width: 900px) {
+  .heroGrid { grid-template-columns: 1fr; gap: 40px; }
+  .subgrid { grid-template-columns: 1fr; }
+  .twoCols { grid-template-columns: 1fr; }
+  .formRow { grid-template-columns: 1fr; }
+  .formRow3 { grid-template-columns: 1fr; }
+  .featureGrid { grid-template-columns: 1fr; }
+  
+  .nav { flex-direction: column; align-items: center; gap: 20px; }
+  .brand { justify-content: center; }
+  .links { justify-content: center; width: 100%; }
+  
+  .hero h2 { font-size: 32px; }
+  .heroCard { padding: 24px; }
+  
+  .registryTop { flex-direction: column; align-items: stretch; }
+  .searchbar { flex-direction: column; }
+  .field { min-width: 100%; }
+  
+  .foot .wrap { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 600px) {
+  .featureGrid { grid-template-columns: 1fr; }
+}
+
 /* Dialog & Modal */
 dialog { width: min(940px, calc(100vw - 24px)); border: none; border-radius: 22px; padding: 0; background: var(--panel); color: var(--text); box-shadow: var(--shadow); }
 dialog::backdrop { background: rgba(0, 0, 0, 0.70); }

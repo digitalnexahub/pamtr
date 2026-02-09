@@ -6,7 +6,7 @@ import { usePAMTR } from '@/lib/context';
 import { 
   LayoutDashboard, FileText, Globe, CheckSquare, BadgeCheck, Receipt as ReceiptIcon, 
   ShieldAlert, Users, History, FileWarning, Megaphone, Plus, Search, Filter, Download, X, Check, AlertTriangle, Info, LogOut,
-  Lock, RefreshCw, Key, Edit, Trash2, Eye, Copy, Bot, Sparkles, FileCheck, BrainCircuit, ArrowRight, CreditCard, CheckCircle, Clock, Loader2, ChevronLeft, ChevronRight
+  Lock, RefreshCw, Key, Edit, Trash2, Eye, Copy, Bot, Sparkles, FileCheck, BrainCircuit, ArrowRight, CreditCard, CheckCircle, Clock, Loader2, ChevronLeft, ChevronRight, Menu
 } from 'lucide-react';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -78,6 +78,7 @@ export default function Dashboard() {
   
   // UI State
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('All');
   const [verifierFilterStatus, setVerifierFilterStatus] = useState<string | null>(null);
@@ -980,7 +981,11 @@ export default function Dashboard() {
 
   // Render Helpers
   const renderAdminSidebar = () => (
-    <div className="w-64 bg-[var(--panel)] border-r border-[var(--line)] p-4 hidden md:flex flex-col h-[calc(100vh-80px)] sticky top-20 overflow-y-auto">
+    <div className={clsx(
+      "w-64 bg-[var(--panel)] border-r border-[var(--line)] p-4 flex-col h-[calc(100vh-80px)] overflow-y-auto",
+      "md:sticky md:top-20 md:flex",
+      isMobileSidebarOpen ? "fixed left-0 top-20 z-40 flex animate-in slide-in-from-left shadow-2xl" : "hidden"
+    )}>
       <div className="text-xs font-bold text-[var(--muted2)] uppercase tracking-wider mb-4 px-2">Core Registry</div>
       <nav className="space-y-1 mb-8">
         <NavButton icon={LayoutDashboard} label="Dashboard" id="dashboard" active={activeTab} onClick={setActiveTab} />
@@ -1008,7 +1013,11 @@ export default function Dashboard() {
   );
 
   const renderVerifierSidebar = () => (
-    <div className="w-64 bg-[var(--panel)] border-r border-[var(--line)] p-4 hidden md:flex flex-col h-[calc(100vh-80px)] sticky top-20 overflow-y-auto">
+    <div className={clsx(
+      "w-64 bg-[var(--panel)] border-r border-[var(--line)] p-4 flex-col h-[calc(100vh-80px)] overflow-y-auto",
+      "md:sticky md:top-20 md:flex",
+      isMobileSidebarOpen ? "fixed left-0 top-20 z-40 flex animate-in slide-in-from-left shadow-2xl" : "hidden"
+    )}>
       <div className="text-xs font-bold text-[var(--muted2)] uppercase tracking-wider mb-4 px-2">Verification Portal</div>
       <nav className="space-y-1 mb-8">
         <NavButton icon={LayoutDashboard} label="Dashboard" id="dashboard" active={activeTab} onClick={setActiveTab} />
@@ -1382,7 +1391,7 @@ export default function Dashboard() {
               )}
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                <div className="bg-[var(--panel)] border border-[var(--line)] p-6 rounded-xl">
                  <h3 className="text-lg font-bold text-white mb-4">Active Requirements</h3>
                  <ul className="space-y-3">
@@ -1698,7 +1707,7 @@ export default function Dashboard() {
             {isAddingReceipt && (
               <div className="bg-[var(--panel)] border border-[var(--gold)]/30 p-6 rounded-xl mb-6 animate-in fade-in slide-in-from-top-4">
                 <h3 className="text-lg font-bold text-white mb-4">{editingReceipt ? 'Edit Receipt' : 'Mint New Receipt'}</h3>
-                <div className="grid md:grid-cols-3 gap-4 mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                   <select 
                     className="bg-[var(--bg)] border border-[var(--line)] rounded p-2 text-white"
                     value={newReceipt.projectId}
@@ -1744,7 +1753,7 @@ export default function Dashboard() {
                   <div className="text-sm text-[var(--muted)] mb-6 font-mono">{viewingReceipt.id}</div>
 
                   <div className="grid gap-6">
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="bg-[var(--bg)] p-4 rounded-lg border border-[var(--line)]">
                         <div className="text-xs text-[var(--muted)] uppercase tracking-wider mb-1">Project</div>
                         <div className="font-bold text-white text-lg">{viewingReceipt.projectName}</div>
@@ -1865,7 +1874,7 @@ export default function Dashboard() {
               </button>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                <div className="bg-[var(--panel)] border border-[var(--line)] p-6 rounded-xl relative overflow-hidden group">
                  <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                    <CreditCard className="w-24 h-24 text-[var(--gold)]" />
@@ -1894,7 +1903,7 @@ export default function Dashboard() {
                </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-[var(--panel)] border border-[var(--line)] p-6 rounded-xl">
                  <h3 className="text-lg font-bold text-white mb-4">Payment Methods</h3>
                  <div className="space-y-4">
@@ -2127,7 +2136,7 @@ export default function Dashboard() {
                     value={newAnnouncement.message}
                     onChange={e => setNewAnnouncement({...newAnnouncement, message: e.target.value})}
                   />
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                      <div>
                        <label className="text-xs text-[var(--muted)] mb-1 block">Start Date</label>
                        <input 
@@ -2311,7 +2320,7 @@ export default function Dashboard() {
         {isCreating && (
           <div className="bg-[var(--panel)] border border-[var(--gold)]/30 p-6 rounded-xl animate-in fade-in slide-in-from-top-4">
             <h3 className="text-xl font-bold text-white mb-4">Register New Mineral Project</h3>
-            <div className="grid md:grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
                 <label className="block text-sm text-[var(--muted)] mb-1">Project Name</label>
                 <input 
@@ -2677,8 +2686,14 @@ export default function Dashboard() {
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
 
       {/* Topbar */}
-      <header className="h-16 border-b border-[var(--line)] bg-[var(--panel)] flex items-center justify-between px-6 sticky top-0 z-50">
+      <header className="h-16 border-b border-[var(--line)] bg-[var(--panel)] flex items-center justify-between px-4 md:px-6 sticky top-0 z-50">
         <div className="flex items-center gap-4">
+          <button 
+             className="md:hidden p-1 -ml-2 text-[var(--muted)] hover:text-white"
+             onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+          >
+             <Menu className="w-6 h-6" />
+          </button>
           <Link href="/" className="font-bold text-xl text-white tracking-tight">PAMTR™ <span className="text-[var(--gold)] text-sm font-normal">Portal</span></Link>
         </div>
         <div className="flex items-center gap-4">
@@ -2702,16 +2717,61 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <div className="flex">
+      <div className="flex relative">
+        {isMobileSidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 z-30 md:hidden animate-in fade-in"
+            onClick={() => setIsMobileSidebarOpen(false)}
+          />
+        )}
         {/* Sidebar */}
         {currentUser.role === 'admin' && renderAdminSidebar()}
         {currentUser.role === 'verifier' && renderVerifierSidebar()}
 
         {/* Main Content */}
-        <main className="flex-1 p-8">
+        <main className="flex-1 p-4 md:p-8">
           {renderContent()}
         </main>
       </div>
+
+      {/* Revoke Seal Modal */}
+      {isRevoking && projectToRevoke && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-[var(--panel)] border border-red-900/50 rounded-2xl p-6 max-w-md w-full shadow-2xl animate-in zoom-in-95">
+            <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <AlertTriangle className="w-6 h-6 text-red-500" />
+              Revoke Seal
+            </h3>
+            <p className="text-[var(--muted)] mb-4">
+              Are you sure you want to revoke the seal for <span className="text-white font-bold">{projectToRevoke.name}</span>?
+              This action cannot be undone and will be recorded in the public audit log.
+            </p>
+            <div className="mb-6">
+              <label className="block text-xs uppercase text-[var(--muted)] mb-2">Reason for Revocation</label>
+              <textarea
+                value={revocationReason}
+                onChange={(e) => setRevocationReason(e.target.value)}
+                className="w-full bg-[var(--bg)] border border-[var(--line)] rounded-lg p-3 text-white focus:border-red-500 focus:outline-none h-24 resize-none"
+                placeholder="Enter detailed reason..."
+              />
+            </div>
+            <div className="flex justify-end gap-3">
+              <button 
+                onClick={() => { setIsRevoking(false); setProjectToRevoke(null); }}
+                className="px-4 py-2 rounded-lg text-[var(--muted)] hover:text-white hover:bg-[var(--line)]"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={confirmRevokeSeal}
+                className="px-4 py-2 rounded-lg bg-red-600 text-white font-bold hover:bg-red-700 shadow-lg shadow-red-900/20"
+              >
+                Revoke Seal
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Review Modal - Audit/Verification Interface */}
       {isReviewingSubmission && submissionToReview && (
@@ -2956,7 +3016,8 @@ const ProjectTable = ({ projects }: { projects: Project[] }) => {
   const router = useRouter();
   
   return (
-  <table className="w-full text-left">
+  <div className="overflow-x-auto">
+  <table className="w-full text-left min-w-[800px]">
     <thead className="bg-[var(--bg)] text-[var(--muted)] text-xs uppercase">
       <tr>
         <th className="p-4">Project Name</th>
@@ -3008,28 +3069,31 @@ const ProjectTable = ({ projects }: { projects: Project[] }) => {
       )}
     </tbody>
   </table>
+  </div>
   );
 };
 
 const AuditLogTable = ({ logs }: { logs: AuditLog[] }) => (
-  <table className="w-full text-left text-sm">
-    <thead className="text-[var(--muted)] border-b border-[var(--line)]">
-      <tr>
-        <th className="pb-2 pl-4">Time</th>
-        <th className="pb-2">User</th>
-        <th className="pb-2">Action</th>
-        <th className="pb-2">Details</th>
-      </tr>
-    </thead>
-    <tbody className="text-[var(--muted2)]">
-      {logs.map(log => (
-        <tr key={log.id} className="border-b border-[var(--line)]">
-          <td className="py-3 pl-4 font-mono text-xs">{new Date(log.timestamp).toLocaleTimeString()}</td>
-          <td className="py-3">{log.userId}</td>
-          <td className="py-3 text-white">{log.action}</td>
-          <td className="py-3 text-[var(--muted)] truncate max-w-xs">{log.details}</td>
+  <div className="overflow-x-auto">
+    <table className="w-full text-left text-sm min-w-[600px]">
+      <thead className="text-[var(--muted)] border-b border-[var(--line)]">
+        <tr>
+          <th className="pb-2 pl-4">Time</th>
+          <th className="pb-2">User</th>
+          <th className="pb-2">Action</th>
+          <th className="pb-2">Details</th>
         </tr>
-      ))}
-    </tbody>
-  </table>
+      </thead>
+      <tbody className="text-[var(--muted2)]">
+        {logs.map(log => (
+          <tr key={log.id} className="border-b border-[var(--line)]">
+            <td className="py-3 pl-4 font-mono text-xs">{new Date(log.timestamp).toLocaleTimeString()}</td>
+            <td className="py-3">{log.userId}</td>
+            <td className="py-3 text-white">{log.action}</td>
+            <td className="py-3 text-[var(--muted)] truncate max-w-xs">{log.details}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
 );
