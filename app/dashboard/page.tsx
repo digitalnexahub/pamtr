@@ -1723,9 +1723,9 @@ export default function Dashboard() {
 
         return (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <h2 className="text-2xl font-bold text-white">Receipt Ledger</h2>
-              <button onClick={() => setIsAddingReceipt(!isAddingReceipt)} className="btn goldGlass text-sm flex items-center gap-2">
+              <button onClick={() => setIsAddingReceipt(!isAddingReceipt)} className="btn goldGlass text-sm flex items-center gap-2 w-full md:w-auto justify-center">
                 {isAddingReceipt ? <X className="w-4 h-4"/> : <Plus className="w-4 h-4"/>}
                 {isAddingReceipt ? 'Cancel' : 'Mint Receipt'}
               </button>
@@ -1829,57 +1829,110 @@ export default function Dashboard() {
               </div>
             )}
 
-            <div className="bg-[var(--panel)] border border-[var(--line)] rounded-xl overflow-hidden">
-              <table className="w-full text-left">
-                <thead className="bg-[var(--bg)] text-[var(--muted)] text-xs uppercase">
-                  <tr>
-                    <th className="p-4">Receipt ID</th>
-                    <th className="p-4">Project</th>
-                    <th className="p-4">Amount</th>
-                    <th className="p-4">Rail</th>
-                    <th className="p-4">Hash</th>
-                    <th className="p-4">Time</th>
-                    <th className="p-4 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="text-sm text-[var(--muted2)]">
-                  {projects.flatMap(p => p.receipts.map(r => ({...r, projectName: p.name}))).map(receipt => (
-                    <tr key={receipt.id} className="border-t border-[var(--line)] hover:bg-[var(--gold)]/5">
-                      <td className="p-4 font-mono text-xs">{receipt.id}</td>
-                      <td className="p-4 font-bold text-white">{receipt.projectName}</td>
-                      <td className="p-4 text-amber-500">{receipt.amount.toLocaleString()}</td>
-                      <td className="p-4">{receipt.rail}</td>
-                      <td className="p-4 font-mono text-xs text-[var(--muted)]">{receipt.hash.substring(0, 10)}...</td>
-                      <td className="p-4 text-xs text-[var(--muted)]">{new Date(receipt.timestamp).toLocaleDateString()}</td>
-                      <td className="p-4 text-right">
-                        <div className="flex justify-end gap-2">
-                          <button 
-                            onClick={() => setViewingReceipt(receipt)}
-                            className="p-1 hover:bg-[var(--bg)] rounded text-[var(--muted)] hover:text-[var(--gold)]"
-                            title="View Details"
-                          >
-                            <Eye className="w-4 h-4" />
-                          </button>
-                          <button 
-                            onClick={() => handleEditReceipt(receipt)}
-                            className="p-1 hover:bg-[var(--bg)] rounded text-[var(--muted)] hover:text-white"
-                            title="Edit"
-                          >
-                            <Edit className="w-4 h-4" />
-                          </button>
-                          <button 
-                            onClick={() => handleDeleteReceipt(receipt.id)}
-                            className="p-1 hover:bg-red-900/20 rounded text-[var(--muted)] hover:text-red-400"
-                            title="Delete"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </td>
+            <div className="space-y-4">
+              {/* Desktop Table */}
+              <div className="hidden md:block bg-[var(--panel)] border border-[var(--line)] rounded-xl overflow-hidden">
+                <table className="w-full text-left">
+                  <thead className="bg-[var(--bg)] text-[var(--muted)] text-xs uppercase">
+                    <tr>
+                      <th className="p-4">Receipt ID</th>
+                      <th className="p-4">Project</th>
+                      <th className="p-4">Amount</th>
+                      <th className="p-4">Rail</th>
+                      <th className="p-4">Hash</th>
+                      <th className="p-4">Time</th>
+                      <th className="p-4 text-right">Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="text-sm text-[var(--muted2)]">
+                    {projects.flatMap(p => p.receipts.map(r => ({...r, projectName: p.name}))).map(receipt => (
+                      <tr key={receipt.id} className="border-t border-[var(--line)] hover:bg-[var(--gold)]/5">
+                        <td className="p-4 font-mono text-xs">{receipt.id}</td>
+                        <td className="p-4 font-bold text-white">{receipt.projectName}</td>
+                        <td className="p-4 text-amber-500">{receipt.amount.toLocaleString()}</td>
+                        <td className="p-4">{receipt.rail}</td>
+                        <td className="p-4 font-mono text-xs text-[var(--muted)]">{receipt.hash.substring(0, 10)}...</td>
+                        <td className="p-4 text-xs text-[var(--muted)]">{new Date(receipt.timestamp).toLocaleDateString()}</td>
+                        <td className="p-4 text-right">
+                          <div className="flex justify-end gap-2">
+                            <button 
+                              onClick={() => setViewingReceipt(receipt)}
+                              className="p-1 hover:bg-[var(--bg)] rounded text-[var(--muted)] hover:text-[var(--gold)]"
+                              title="View Details"
+                            >
+                              <Eye className="w-4 h-4" />
+                            </button>
+                            <button 
+                              onClick={() => handleEditReceipt(receipt)}
+                              className="p-1 hover:bg-[var(--bg)] rounded text-[var(--muted)] hover:text-white"
+                              title="Edit"
+                            >
+                              <Edit className="w-4 h-4" />
+                            </button>
+                            <button 
+                              onClick={() => handleDeleteReceipt(receipt.id)}
+                              className="p-1 hover:bg-red-900/20 rounded text-[var(--muted)] hover:text-red-400"
+                              title="Delete"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="md:hidden space-y-4">
+                {projects.flatMap(p => p.receipts.map(r => ({...r, projectName: p.name}))).map(receipt => (
+                  <div key={receipt.id} className="bg-[var(--panel)] border border-[var(--line)] rounded-xl p-4 space-y-3">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <div className="text-xs font-mono text-[var(--muted)] mb-1">{receipt.id}</div>
+                        <div className="font-bold text-white">{receipt.projectName}</div>
+                      </div>
+                      <div className="text-amber-500 font-bold">{receipt.amount.toLocaleString()}</div>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-2 text-sm">
+                      <div className="bg-[var(--bg)] p-2 rounded border border-[var(--line)]">
+                        <div className="text-xs text-[var(--muted)] uppercase">Rail</div>
+                        <div className="text-[var(--muted2)]">{receipt.rail}</div>
+                      </div>
+                      <div className="bg-[var(--bg)] p-2 rounded border border-[var(--line)]">
+                        <div className="text-xs text-[var(--muted)] uppercase">Time</div>
+                        <div className="text-[var(--muted2)]">{new Date(receipt.timestamp).toLocaleDateString()}</div>
+                      </div>
+                    </div>
+
+                    <div className="bg-[var(--bg)] p-2 rounded border border-[var(--line)] flex justify-between items-center">
+                      <div className="text-xs font-mono text-[var(--muted)] truncate max-w-[150px]">{receipt.hash}</div>
+                      <div className="flex gap-2">
+                        <button 
+                          onClick={() => setViewingReceipt(receipt)}
+                          className="p-1 hover:bg-[var(--panel)] rounded text-[var(--muted)] hover:text-[var(--gold)]"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+                        <button 
+                          onClick={() => handleEditReceipt(receipt)}
+                          className="p-1 hover:bg-[var(--panel)] rounded text-[var(--muted)] hover:text-white"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </button>
+                        <button 
+                          onClick={() => handleDeleteReceipt(receipt.id)}
+                          className="p-1 hover:bg-red-900/20 rounded text-[var(--muted)] hover:text-red-400"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         );
