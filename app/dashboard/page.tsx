@@ -982,47 +982,83 @@ export default function Dashboard() {
   // Render Helpers
   const renderAdminSidebar = () => (
     <div className={clsx(
-      "w-64 bg-[var(--panel)] border-r border-[var(--line)] p-4 flex-col h-[calc(100vh-80px)] overflow-y-auto",
-      "md:sticky md:top-20 md:flex",
-      isMobileSidebarOpen ? "fixed left-0 top-20 z-40 flex animate-in slide-in-from-left shadow-2xl" : "hidden"
+      "bg-[var(--panel)] border-r border-[var(--line)] flex-col transition-all duration-300",
+      "md:w-64 md:sticky md:top-20 md:flex md:h-[calc(100vh-80px)] md:overflow-y-auto",
+      isMobileSidebarOpen 
+        ? "fixed inset-y-0 left-0 z-50 w-72 h-full shadow-2xl animate-in slide-in-from-left flex overflow-y-auto" 
+        : "hidden"
     )}>
-      <div className="text-xs font-bold text-[var(--muted2)] uppercase tracking-wider mb-4 px-2">Core Registry</div>
-      <nav className="space-y-1 mb-8">
-        <NavButton icon={LayoutDashboard} label="Dashboard" id="dashboard" active={activeTab} onClick={setActiveTab} />
-        <NavButton icon={FileText} label="Mineral Projects" id="projects" active={activeTab} onClick={setActiveTab} />
-        <NavButton icon={Globe} label="Countries" id="countries" active={activeTab} onClick={setActiveTab} />
-        <NavButton icon={CheckSquare} label="Submissions" id="submissions" active={activeTab} onClick={setActiveTab} />
-        <NavButton icon={BadgeCheck} label="Verification Seals" id="seals" active={activeTab} onClick={setActiveTab} />
-        <NavButton icon={ReceiptIcon} label="Receipts" id="receipts" active={activeTab} onClick={setActiveTab} />
-      </nav>
-      
-      <div className="text-xs font-bold text-[var(--muted2)] uppercase tracking-wider mb-4 px-2">Governance</div>
-      <nav className="space-y-1 mb-8">
-        <NavButton icon={ShieldAlert} label="Compliance" id="compliance" active={activeTab} onClick={setActiveTab} />
-        <NavButton icon={Users} label="Users & Roles" id="users" active={activeTab} onClick={setActiveTab} />
-        <NavButton icon={History} label="Audit Logs" id="audit" active={activeTab} onClick={setActiveTab} />
-      </nav>
+      {/* Mobile Header with Close Button */}
+      <div className="md:hidden flex items-center justify-between p-4 border-b border-[var(--line)] mb-2">
+        <span className="font-bold text-white flex items-center gap-2">
+          <div className="w-6 h-6 rounded bg-gradient-to-br from-[var(--gold)] to-[var(--gold2)]"></div>
+          PAMTR™
+        </span>
+        <button 
+          onClick={() => setIsMobileSidebarOpen(false)}
+          className="p-2 hover:bg-[var(--line)] rounded-lg text-[var(--muted)] hover:text-white transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
+      </div>
 
-      <div className="text-xs font-bold text-[var(--muted2)] uppercase tracking-wider mb-4 px-2">System</div>
-      <nav className="space-y-1">
-        <NavButton icon={CreditCard} label="Payment Gateway" id="payment-gateway" active={activeTab} onClick={setActiveTab} />
-        <NavButton icon={FileWarning} label="Policies" id="policies" active={activeTab} onClick={setActiveTab} />
-        <NavButton icon={Megaphone} label="Announcements" id="announcements" active={activeTab} onClick={setActiveTab} />
-      </nav>
+      <div className="p-4 pt-2 md:p-4">
+        <div className="text-xs font-bold text-[var(--muted2)] uppercase tracking-wider mb-4 px-2">Core Registry</div>
+        <nav className="space-y-1 mb-8">
+          <NavButton icon={LayoutDashboard} label="Dashboard" id="dashboard" active={activeTab} onClick={(id: string) => { setActiveTab(id); setIsMobileSidebarOpen(false); }} />
+          <NavButton icon={FileText} label="Mineral Projects" id="projects" active={activeTab} onClick={(id: string) => { setActiveTab(id); setIsMobileSidebarOpen(false); }} />
+          <NavButton icon={Globe} label="Countries" id="countries" active={activeTab} onClick={(id: string) => { setActiveTab(id); setIsMobileSidebarOpen(false); }} />
+          <NavButton icon={CheckSquare} label="Submissions" id="submissions" active={activeTab} onClick={(id: string) => { setActiveTab(id); setIsMobileSidebarOpen(false); }} />
+          <NavButton icon={BadgeCheck} label="Verification Seals" id="seals" active={activeTab} onClick={(id: string) => { setActiveTab(id); setIsMobileSidebarOpen(false); }} />
+          <NavButton icon={ReceiptIcon} label="Receipts" id="receipts" active={activeTab} onClick={(id: string) => { setActiveTab(id); setIsMobileSidebarOpen(false); }} />
+        </nav>
+        
+        <div className="text-xs font-bold text-[var(--muted2)] uppercase tracking-wider mb-4 px-2">Governance</div>
+        <nav className="space-y-1 mb-8">
+          <NavButton icon={ShieldAlert} label="Compliance" id="compliance" active={activeTab} onClick={(id: string) => { setActiveTab(id); setIsMobileSidebarOpen(false); }} />
+          <NavButton icon={Users} label="Users & Roles" id="users" active={activeTab} onClick={(id: string) => { setActiveTab(id); setIsMobileSidebarOpen(false); }} />
+          <NavButton icon={History} label="Audit Logs" id="audit" active={activeTab} onClick={(id: string) => { setActiveTab(id); setIsMobileSidebarOpen(false); }} />
+        </nav>
+
+        <div className="text-xs font-bold text-[var(--muted2)] uppercase tracking-wider mb-4 px-2">System</div>
+        <nav className="space-y-1">
+          <NavButton icon={CreditCard} label="Payment Gateway" id="payment-gateway" active={activeTab} onClick={(id: string) => { setActiveTab(id); setIsMobileSidebarOpen(false); }} />
+          <NavButton icon={FileWarning} label="Policies" id="policies" active={activeTab} onClick={(id: string) => { setActiveTab(id); setIsMobileSidebarOpen(false); }} />
+          <NavButton icon={Megaphone} label="Announcements" id="announcements" active={activeTab} onClick={(id: string) => { setActiveTab(id); setIsMobileSidebarOpen(false); }} />
+        </nav>
+      </div>
     </div>
   );
 
   const renderVerifierSidebar = () => (
     <div className={clsx(
-      "w-64 bg-[var(--panel)] border-r border-[var(--line)] p-4 flex-col h-[calc(100vh-80px)] overflow-y-auto",
-      "md:sticky md:top-20 md:flex",
-      isMobileSidebarOpen ? "fixed left-0 top-20 z-40 flex animate-in slide-in-from-left shadow-2xl" : "hidden"
+      "bg-[var(--panel)] border-r border-[var(--line)] flex-col transition-all duration-300",
+      "md:w-64 md:sticky md:top-20 md:flex md:h-[calc(100vh-80px)] md:overflow-y-auto",
+      isMobileSidebarOpen 
+        ? "fixed inset-y-0 left-0 z-50 w-72 h-full shadow-2xl animate-in slide-in-from-left flex overflow-y-auto" 
+        : "hidden"
     )}>
-      <div className="text-xs font-bold text-[var(--muted2)] uppercase tracking-wider mb-4 px-2">Verification Portal</div>
-      <nav className="space-y-1 mb-8">
-        <NavButton icon={LayoutDashboard} label="Dashboard" id="dashboard" active={activeTab} onClick={setActiveTab} />
-        <NavButton icon={CheckSquare} label="Submissions" id="submissions" active={activeTab} onClick={(id: any) => { setActiveTab(id); setVerifierFilterStatus(null); }} />
-      </nav>
+      {/* Mobile Header with Close Button */}
+      <div className="md:hidden flex items-center justify-between p-4 border-b border-[var(--line)] mb-2">
+        <span className="font-bold text-white flex items-center gap-2">
+          <div className="w-6 h-6 rounded bg-gradient-to-br from-[var(--gold)] to-[var(--gold2)]"></div>
+          PAMTR™
+        </span>
+        <button 
+          onClick={() => setIsMobileSidebarOpen(false)}
+          className="p-2 hover:bg-[var(--line)] rounded-lg text-[var(--muted)] hover:text-white transition-colors"
+        >
+          <X className="w-5 h-5" />
+        </button>
+      </div>
+
+      <div className="p-4 pt-2 md:p-4">
+        <div className="text-xs font-bold text-[var(--muted2)] uppercase tracking-wider mb-4 px-2">Verification Portal</div>
+        <nav className="space-y-1 mb-8">
+          <NavButton icon={LayoutDashboard} label="Dashboard" id="dashboard" active={activeTab} onClick={(id: string) => { setActiveTab(id); setIsMobileSidebarOpen(false); }} />
+          <NavButton icon={CheckSquare} label="Submissions" id="submissions" active={activeTab} onClick={(id: any) => { setActiveTab(id); setVerifierFilterStatus(null); setIsMobileSidebarOpen(false); }} />
+        </nav>
+      </div>
     </div>
   );
 
