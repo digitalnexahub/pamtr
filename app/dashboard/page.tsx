@@ -1569,38 +1569,68 @@ export default function Dashboard() {
               </div>
             )}
 
-            <div className="bg-[var(--panel)] border border-[var(--line)] rounded-xl overflow-hidden p-6">
-               <table className="w-full text-left">
-                 <thead>
-                   <tr className="border-b border-[var(--line)] text-[var(--muted)] text-sm">
-                     <th className="pb-3 pl-4">User</th>
-                     <th className="pb-3">Role</th>
-                     <th className="pb-3">Email</th>
-                     <th className="pb-3">Actions</th>
-                   </tr>
-                 </thead>
-                 <tbody>
-                   {users.map(user => (
-                     <tr 
-                       key={user.id} 
-                       onClick={() => setEditingUser(user)}
-                       className="border-b border-[var(--line)] text-[var(--muted2)] cursor-pointer hover:bg-[var(--gold)]/5 transition-colors"
-                     >
-                       <td className="py-3 font-medium text-white pl-4">{user.name}</td>
-                       <td className="py-3"><span className="px-2 py-1 bg-[var(--bg)] border border-[var(--line)] rounded text-xs uppercase">{user.role}</span></td>
-                       <td className="py-3 text-sm text-[var(--muted)]">{user.email}</td>
-                       <td className="py-3">
-                         <button 
-                           onClick={() => setEditingUser(user)}
-                           className="text-[var(--gold)] text-sm hover:underline"
-                         >
-                           Edit
-                         </button>
-                       </td>
+            <div className="space-y-4">
+               {/* Desktop Table View */}
+               <div className="hidden md:block bg-[var(--panel)] border border-[var(--line)] rounded-xl overflow-hidden p-6">
+                 <table className="w-full text-left">
+                   <thead>
+                     <tr className="border-b border-[var(--line)] text-[var(--muted)] text-sm">
+                       <th className="pb-3 pl-4">User</th>
+                       <th className="pb-3">Role</th>
+                       <th className="pb-3">Email</th>
+                       <th className="pb-3">Actions</th>
                      </tr>
-                   ))}
-                 </tbody>
-               </table>
+                   </thead>
+                   <tbody>
+                     {users.map(user => (
+                       <tr 
+                         key={user.id} 
+                         onClick={() => setEditingUser(user)}
+                         className="border-b border-[var(--line)] text-[var(--muted2)] cursor-pointer hover:bg-[var(--gold)]/5 transition-colors"
+                       >
+                         <td className="py-3 font-medium text-white pl-4">{user.name}</td>
+                         <td className="py-3"><span className="px-2 py-1 bg-[var(--bg)] border border-[var(--line)] rounded text-xs uppercase">{user.role}</span></td>
+                         <td className="py-3 text-sm text-[var(--muted)]">{user.email}</td>
+                         <td className="py-3">
+                           <button 
+                             onClick={() => setEditingUser(user)}
+                             className="text-[var(--gold)] text-sm hover:underline"
+                           >
+                             Edit
+                           </button>
+                         </td>
+                       </tr>
+                     ))}
+                   </tbody>
+                 </table>
+               </div>
+
+               {/* Mobile Card View */}
+               <div className="md:hidden space-y-4">
+                 {users.map(user => (
+                   <div 
+                     key={user.id} 
+                     onClick={() => setEditingUser(user)}
+                     className="bg-[var(--panel)] border border-[var(--line)] rounded-xl p-4 cursor-pointer hover:bg-[var(--gold)]/5 transition-colors"
+                   >
+                     <div className="flex justify-between items-start mb-3">
+                       <div>
+                         <div className="font-bold text-white text-lg">{user.name}</div>
+                         <div className="text-sm text-[var(--muted)] break-all">{user.email}</div>
+                       </div>
+                       <span className="px-2 py-1 bg-[var(--bg)] border border-[var(--line)] rounded text-xs uppercase shrink-0 ml-2">{user.role}</span>
+                     </div>
+                     <div className="flex justify-end pt-3 border-t border-[var(--line)]">
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); setEditingUser(user); }}
+                          className="text-[var(--gold)] text-sm font-medium flex items-center gap-1"
+                        >
+                          <Edit className="w-4 h-4" /> Edit User
+                        </button>
+                     </div>
+                   </div>
+                 ))}
+               </div>
             </div>
           </div>
         );
