@@ -177,7 +177,7 @@ export default function ProjectPage() {
                 {project.status}
               </span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">{project.name}</h1>
+            <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 break-words">{project.name}</h1>
             <div className="flex items-center gap-4 text-[var(--muted)] text-lg">
               <span className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-[var(--gold)]"></div> {project.country}</span>
               <span className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-[var(--muted)]"></div> {project.mineralType}</span>
@@ -186,7 +186,7 @@ export default function ProjectPage() {
 
           {/* Trust Seal Badge */}
           {project.seal && (
-            <div className="w-full md:w-auto md:max-w-xs bg-gradient-to-br from-[var(--panel)] to-[var(--panel2)] p-6 rounded-2xl border border-[var(--gold)]/30 shadow-[0_0_30px_rgba(245,158,11,0.1)] flex flex-col items-center text-center">
+            <div className="w-full md:w-auto md:max-w-xs bg-gradient-to-br from-[var(--panel)] to-[var(--panel2)] p-4 md:p-6 rounded-2xl border border-[var(--gold)]/30 shadow-[0_0_30px_rgba(245,158,11,0.1)] flex flex-col items-center text-center">
               <Shield className="w-12 h-12 text-[var(--gold)] mb-3" />
               <div className="text-[var(--gold)] font-bold text-lg leading-tight mb-1">{project.seal.level}</div>
               <div className="text-xs text-[var(--muted)] uppercase tracking-wider mb-3">Trust Seal™ Issued</div>
@@ -208,7 +208,7 @@ export default function ProjectPage() {
                 Proof Stack™ Summary
               </h2>
               <div className="bg-[var(--panel)] border border-[var(--line)] rounded-2xl overflow-hidden">
-                <div className="p-6 grid gap-4">
+                <div className="p-4 md:p-6 grid gap-4">
                   <ProofItem label="Mining License / Concession" active={project.proofPack.miningLicense} verified={project.proofPack.verifiedDocuments?.includes('miningLicense')} />
                   <ProofItem label="Government Authorization" active={project.proofPack.govAuthorization} verified={project.proofPack.verifiedDocuments?.includes('govAuthorization')} />
                   <ProofItem label="Environmental Approvals" active={project.proofPack.envApprovals} verified={project.proofPack.verifiedDocuments?.includes('envApprovals')} />
@@ -243,13 +243,13 @@ export default function ProjectPage() {
 
           {/* Right Column: Support Widget */}
           <div className={clsx(
-            "space-y-8 sticky top-24 self-start transition-all duration-300",
+            "space-y-8 md:sticky md:top-24 self-start transition-all duration-300",
             !isActionable && currentUser.role !== 'admin' && currentUser.role !== 'verifier' && "blur-sm opacity-50 pointer-events-none select-none grayscale"
           )}>
             
             {/* Admin/Verifier Contact View */}
             {(currentUser.role === 'admin' || currentUser.role === 'verifier') && (
-              <div className="bg-[var(--panel)] border border-[var(--gold)]/30 rounded-2xl p-6 shadow-lg">
+              <div className="bg-[var(--panel)] border border-[var(--gold)]/30 rounded-2xl p-4 md:p-6 shadow-lg">
                 <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
                   <Shield className="w-5 h-5 text-[var(--gold)]" />
                   Submitter Contact
@@ -267,7 +267,7 @@ export default function ProjectPage() {
               </div>
             )}
 
-            <div className="bg-[var(--panel)] border border-[var(--line)] rounded-2xl p-6 shadow-2xl">
+            <div className="bg-[var(--panel)] border border-[var(--line)] rounded-2xl p-4 md:p-6 shadow-2xl">
               <h3 className="text-xl font-bold text-white mb-6">Support this Project</h3>
               
               {!receipt ? (
@@ -390,7 +390,7 @@ export default function ProjectPage() {
             </div>
 
             {/* Share Card CTA */}
-            <div className="bg-gradient-to-br from-[var(--panel2)] to-[var(--panel)] rounded-2xl p-6 border border-[var(--line)]">
+            <div className="bg-gradient-to-br from-[var(--panel2)] to-[var(--panel)] rounded-2xl p-4 md:p-6 border border-[var(--line)]">
                <h4 className="font-bold text-white mb-2 flex items-center gap-2">
                  <Share2 className="w-5 h-5 text-[var(--gold)]" />
                  Share this Project
@@ -410,7 +410,7 @@ export default function ProjectPage() {
       {/* Share Modal */}
       {isShareOpen && project && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[var(--bg)]/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-[var(--panel)] border border-[var(--line)] rounded-3xl p-6 max-w-md w-full relative shadow-2xl animate-in zoom-in-95 duration-200">
+          <div className="bg-[var(--panel)] border border-[var(--line)] rounded-3xl p-4 md:p-6 max-w-md w-full relative shadow-2xl animate-in zoom-in-95 duration-200">
             <button 
               onClick={() => setIsShareOpen(false)}
               className="absolute right-4 top-4 text-[var(--muted)] hover:text-white transition-colors"
