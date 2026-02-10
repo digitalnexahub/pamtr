@@ -2629,21 +2629,21 @@ export default function Dashboard() {
         case 'dashboard':
             return (
                 <div className="space-y-6">
-                    <div className="flex justify-between items-center">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0">
                         <h2 className="text-2xl font-bold text-white">Verifier Dashboard</h2>
-                        <div className="relative">
+                        <div className="relative w-full md:w-auto">
                             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted2)]" />
                             <input 
                                 type="text" 
                                 placeholder="Search projects, submitters..." 
-                                className="pl-9 pr-4 py-2 bg-[var(--panel)] border border-[var(--line)] rounded-lg text-sm text-white w-64 focus:border-[var(--gold)] outline-none"
+                                className="pl-9 pr-4 py-2 bg-[var(--panel)] border border-[var(--line)] rounded-lg text-sm text-white w-full md:w-64 focus:border-[var(--gold)] outline-none"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         <StatCard 
                             label="Pending Review" 
                             value={verifierProjects.filter(p => p.status === 'Submitted').length} 
@@ -2670,12 +2670,12 @@ export default function Dashboard() {
                         </div>
                         <div className="space-y-3">
                             {searchedVerifierProjects.filter(p => p.status === 'Submitted').slice(0, 5).map(project => (
-                                <div key={project.id} className="flex justify-between items-center p-3 rounded border border-[var(--line)] bg-[var(--bg)] hover:border-[var(--gold)]/30 transition-colors cursor-pointer" onClick={() => handlePickup(project)}>
+                                <div key={project.id} className="flex flex-col sm:flex-row justify-between sm:items-center p-3 rounded border border-[var(--line)] bg-[var(--bg)] hover:border-[var(--gold)]/30 transition-colors cursor-pointer gap-2 sm:gap-0" onClick={() => handlePickup(project)}>
                                     <div>
                                         <div className="font-bold text-white text-sm">{project.name}</div>
                                         <div className="text-xs text-[var(--muted)]">{project.country} • {project.mineralType}</div>
                                     </div>
-                                    <div className="text-right">
+                                    <div className="text-left sm:text-right w-full sm:w-auto flex flex-row sm:flex-col justify-between sm:justify-end items-center sm:items-end">
                                         <div className="text-xs font-bold text-[var(--gold)]">{project.proofPack.completionPercentage}%</div>
                                         <div className="text-xs text-[var(--muted2)] uppercase">Proof Score</div>
                                     </div>
@@ -2692,8 +2692,8 @@ export default function Dashboard() {
         default:
              return (
                 <div className="space-y-8">
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-4">
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0">
+                    <div className="flex flex-wrap items-center gap-4">
                         <h2 className="text-2xl font-bold text-white">All Submissions</h2>
                         {verifierFilterStatus && (
                             <div className="flex items-center gap-2 bg-[var(--gold)]/10 border border-[var(--gold)]/30 px-3 py-1 rounded-full">
@@ -2704,12 +2704,12 @@ export default function Dashboard() {
                             </div>
                         )}
                     </div>
-                     <div className="relative">
+                     <div className="relative w-full md:w-auto">
                         <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted2)]" />
                         <input 
                             type="text" 
                             placeholder="Search projects, submitters..." 
-                            className="pl-9 pr-4 py-2 bg-[var(--panel)] border border-[var(--line)] rounded-lg text-sm text-white w-64 focus:border-[var(--gold)] outline-none"
+                            className="pl-9 pr-4 py-2 bg-[var(--panel)] border border-[var(--line)] rounded-lg text-sm text-white w-full md:w-64 focus:border-[var(--gold)] outline-none"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -2718,7 +2718,7 @@ export default function Dashboard() {
                   <div className="grid gap-6">
                     {filteredVerifierProjects.map(project => (
                       <div key={project.id} className="bg-[var(--panel)] border border-[var(--line)] p-6 rounded-xl">
-                         <div className="flex justify-between items-start mb-6">
+                         <div className="flex flex-col md:flex-row justify-between items-start mb-6 gap-4 md:gap-0">
                             <div>
                               <h3 className="text-xl font-bold text-white mb-1">{project.name}</h3>
                               <div className="text-sm text-[var(--muted)]">
@@ -2727,9 +2727,9 @@ export default function Dashboard() {
                                 {project.phone && <span> • {project.phone}</span>}
                               </div>
                             </div>
-                            <div className="text-right">
-                              <div className="text-2xl font-bold text-[var(--gold)]">{project.proofPack.completionPercentage}%</div>
-                              <div className="text-xs text-[var(--muted2)] uppercase">Proof Score</div>
+                            <div className="text-left md:text-right w-full md:w-auto flex flex-row md:flex-col justify-between md:justify-end items-center md:items-end">
+                              <div className="text-2xl font-bold text-[var(--gold)] md:order-1">{project.proofPack.completionPercentage}%</div>
+                              <div className="text-xs text-[var(--muted2)] uppercase md:order-2">Proof Score</div>
                             </div>
                          </div>
 
@@ -2748,16 +2748,16 @@ export default function Dashboard() {
                            </div>
                          </div>
 
-                         <div className="flex gap-4 border-t border-[var(--line)] pt-4">
+                         <div className="flex flex-wrap gap-4 border-t border-[var(--line)] pt-4">
                            {project.status === 'Submitted' && (
-                             <button onClick={() => handlePickup(project)} className="btn secondary text-sm">Start Verification Review</button>
+                             <button onClick={() => handlePickup(project)} className="btn secondary text-sm w-full sm:w-auto">Start Verification Review</button>
                            )}
                            
                            {project.status === 'Under Verification' && !project.seal && (
                              <>
-                               <button onClick={() => handleIssueSeal(project, 'Verified Intake')} className="btn secondary text-sm">Issue Seal I (Intake)</button>
-                               <button onClick={() => handleIssueSeal(project, 'Implementation-Ready')} className="btn secondary text-sm">Issue Seal II (Ready)</button>
-                               <button onClick={() => handleIssueSeal(project, 'Audit-Complete')} className="btn goldGlass text-sm">Issue Seal III (Audit)</button>
+                               <button onClick={() => handleIssueSeal(project, 'Verified Intake')} className="btn secondary text-sm w-full sm:w-auto">Issue Seal I (Intake)</button>
+                               <button onClick={() => handleIssueSeal(project, 'Implementation-Ready')} className="btn secondary text-sm w-full sm:w-auto">Issue Seal II (Ready)</button>
+                               <button onClick={() => handleIssueSeal(project, 'Audit-Complete')} className="btn goldGlass text-sm w-full sm:w-auto">Issue Seal III (Audit)</button>
                              </>
                            )}
 
