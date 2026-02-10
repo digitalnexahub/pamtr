@@ -519,10 +519,10 @@ export default function Dashboard() {
   };
 
   const handleIssueSeal = (project: Project, level: SealLevel) => {
-    if (project.proofPack.completionPercentage < 100) {
-      showToast("Cannot issue seal: Proof Pack incomplete.", 'error');
-      return;
-    }
+    // if (project.proofPack.completionPercentage < 100) {
+    //   showToast("Cannot issue seal: Proof Pack incomplete.", 'error');
+    //   return;
+    // }
 
     const updatedProject: Project = {
       ...project,
@@ -2764,9 +2764,8 @@ export default function Dashboard() {
                            {project.status === 'Verified' && project.seal && (
                              <button 
                                onClick={() => handlePublish(project)} 
-                               disabled={project.proofPack.completionPercentage < 100}
-                               className="btn goldGlass text-sm w-full disabled:opacity-50 disabled:cursor-not-allowed"
-                               title={project.proofPack.completionPercentage < 100 ? "All proofs must be verified to publish" : "Publish to Live Registry"}
+                               className="btn goldGlass text-sm w-full"
+                               title="Publish to Live Registry"
                              >
                                Publish to Live Registry
                              </button>
