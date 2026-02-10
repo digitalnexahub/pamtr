@@ -1985,18 +1985,18 @@ export default function Dashboard() {
       case 'payment-gateway':
         return (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-white">Payment Gateway Configuration</h2>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-0">
+              <h2 className="text-xl md:text-2xl font-bold text-white">Payment Gateway Configuration</h2>
               <button 
                 onClick={handleSyncTransactions}
-                className="btn goldGlass text-sm flex items-center gap-2"
+                className="btn goldGlass text-sm flex items-center gap-2 w-full md:w-auto justify-center"
               >
                 <RefreshCw className="w-4 h-4"/> Sync Transactions
               </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-               <div className="bg-[var(--panel)] border border-[var(--line)] p-6 rounded-xl relative overflow-hidden group">
+               <div className="bg-[var(--panel)] border border-[var(--line)] p-4 md:p-6 rounded-xl relative overflow-hidden group">
                  <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                    <CreditCard className="w-24 h-24 text-[var(--gold)]" />
                  </div>
@@ -2005,7 +2005,7 @@ export default function Dashboard() {
                  <div className="text-xs text-[var(--muted)] mt-1">+{paymentStats.revenueGrowth}% from last month</div>
                </div>
                
-               <div className="bg-[var(--panel)] border border-[var(--line)] p-6 rounded-xl relative overflow-hidden group">
+               <div className="bg-[var(--panel)] border border-[var(--line)] p-4 md:p-6 rounded-xl relative overflow-hidden group">
                  <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                    <CheckCircle className="w-24 h-24 text-green-500" />
                  </div>
@@ -2014,7 +2014,7 @@ export default function Dashboard() {
                  <div className="text-xs text-[var(--muted)] mt-1">{paymentStats.successRate}% Success Rate</div>
                </div>
 
-               <div className="bg-[var(--panel)] border border-[var(--line)] p-6 rounded-xl relative overflow-hidden group">
+               <div className="bg-[var(--panel)] border border-[var(--line)] p-4 md:p-6 rounded-xl relative overflow-hidden group">
                  <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                    <Clock className="w-24 h-24 text-blue-500" />
                  </div>
@@ -2025,11 +2025,11 @@ export default function Dashboard() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-[var(--panel)] border border-[var(--line)] p-6 rounded-xl">
+              <div className="bg-[var(--panel)] border border-[var(--line)] p-4 md:p-6 rounded-xl">
                  <h3 className="text-lg font-bold text-white mb-4">Payment Methods</h3>
                  <div className="space-y-4">
                    {paymentMethods.map((method, i) => (
-                     <div key={method.id} className="flex items-center justify-between p-4 bg-[var(--bg)] border border-[var(--line)] rounded-lg">
+                     <div key={method.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 bg-[var(--bg)] border border-[var(--line)] rounded-lg gap-4 sm:gap-0">
                        <div className="flex items-center gap-3">
                          <div className="w-10 h-10 rounded-full bg-[var(--panel2)] flex items-center justify-center text-[var(--gold)]">
                            {method.type === 'Card' ? <CreditCard className="w-5 h-5"/> : 
@@ -2042,7 +2042,7 @@ export default function Dashboard() {
                        </div>
                        <div 
                          onClick={() => handleTogglePaymentMethod(method.id)}
-                         className={clsx("relative inline-block w-12 h-6 transition duration-200 ease-in-out rounded-full border cursor-pointer",
+                         className={clsx("relative inline-block w-12 h-6 transition duration-200 ease-in-out rounded-full border cursor-pointer self-end sm:self-auto",
                             method.status === 'Active' ? "bg-green-900/50 border-green-500/50" : "bg-[var(--line)] border-[var(--line)]"
                          )}
                        >
@@ -2055,20 +2055,20 @@ export default function Dashboard() {
                  </div>
               </div>
 
-              <div className="bg-[var(--panel)] border border-[var(--line)] p-6 rounded-xl">
+              <div className="bg-[var(--panel)] border border-[var(--line)] p-4 md:p-6 rounded-xl">
                  <h3 className="text-lg font-bold text-white mb-4">API Configuration</h3>
                  <div className="space-y-4">
                    <div>
                      <label className="text-xs text-[var(--muted)] mb-1 block">Merchant ID</label>
                      <div className="flex gap-2">
-                       <input type="text" value={apiConfig.merchantId} readOnly className="flex-1 bg-[var(--bg)] border border-[var(--line)] rounded p-2 text-white font-mono text-sm opacity-70" />
+                       <input type="text" value={apiConfig.merchantId} readOnly className="flex-1 bg-[var(--bg)] border border-[var(--line)] rounded p-2 text-white font-mono text-sm opacity-70 min-w-0" />
                        <button onClick={() => handleCopy(apiConfig.merchantId)} className="btn secondary p-2"><Copy className="w-4 h-4"/></button>
                      </div>
                    </div>
                    <div>
                      <label className="text-xs text-[var(--muted)] mb-1 block">Public Key</label>
                      <div className="flex gap-2">
-                       <input type="text" value={apiConfig.publicKey} readOnly className="flex-1 bg-[var(--bg)] border border-[var(--line)] rounded p-2 text-white font-mono text-sm opacity-70" />
+                       <input type="text" value={apiConfig.publicKey} readOnly className="flex-1 bg-[var(--bg)] border border-[var(--line)] rounded p-2 text-white font-mono text-sm opacity-70 min-w-0" />
                        <button onClick={() => handleCopy(apiConfig.publicKey)} className="btn secondary p-2"><Copy className="w-4 h-4"/></button>
                      </div>
                    </div>
@@ -2079,7 +2079,7 @@ export default function Dashboard() {
                          type={showSecretKey ? "text" : "password"} 
                          value={apiConfig.secretKey} 
                          readOnly 
-                         className="flex-1 bg-[var(--bg)] border border-[var(--line)] rounded p-2 text-white font-mono text-sm opacity-70" 
+                         className="flex-1 bg-[var(--bg)] border border-[var(--line)] rounded p-2 text-white font-mono text-sm opacity-70 min-w-0" 
                        />
                        <button onClick={() => setShowSecretKey(!showSecretKey)} className="btn secondary p-2">
                          {showSecretKey ? <Eye className="w-4 h-4"/> : <Lock className="w-4 h-4"/>}
@@ -2094,8 +2094,8 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="bg-[var(--panel)] border border-[var(--line)] p-6 rounded-xl">
-               <div className="flex justify-between items-center mb-6">
+            <div className="bg-[var(--panel)] border border-[var(--line)] p-4 md:p-6 rounded-xl">
+               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-2 sm:gap-0">
                  <h3 className="text-lg font-bold text-white">Recent Transactions</h3>
                  <button onClick={() => showToast("Displaying all available transactions.", 'info')} className="text-[var(--gold)] text-sm hover:underline">View All</button>
                </div>
