@@ -188,39 +188,74 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Mobile Menu Dropdown */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden py-4 border-t border-[var(--line)] flex flex-col gap-4 animate-in slide-in-from-top-2 fade-in">
-              <div className="grid grid-cols-2 gap-4">
-                 <a href="#adoption" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Adoption Kit</a>
-                 <a href="#nodes" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Country Nodes</a>
-                 <a href="#charter" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Charter</a>
-                 <a href="#proof" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Proof Stack™</a>
-                 <a href="#seal" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Trust Seal™</a>
-                 <a href="#standards" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Standards</a>
-                 <a href="#governance" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Governance</a>
-                 <Link href="/verify" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Verify</Link>
-                 <a href="#partners" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--muted)] hover:text-white">Partners</a>
-                 <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="text-sm text-[var(--gold)] hover:text-white font-bold">{currentUser?.role !== 'public' ? 'Dashboard' : 'Sign In'}</Link>
-              </div>
-              <div className="flex gap-2 pt-2 border-t border-[var(--line)]">
-                 <button 
-                    className="btn secondary flex-1 justify-center" 
-                    onClick={() => { setIsLegalOpen(true); setIsMobileMenuOpen(false); }}
-                  >
-                    Legal
-                  </button>
-                  <button 
-                    className="btn goldGlass shimmer flex-1 justify-center"
-                    onClick={() => { setIsRegisterOpen(true); setIsMobileMenuOpen(false); }}
-                  >
-                    Request Access
-                  </button>
-              </div>
-            </div>
-          )}
+
         </div>
       </div>
+
+      {/* Mobile Menu Dropdown (Side Drawer) */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 z-[100] flex">
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm animate-in fade-in"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-hidden="true"
+          ></div>
+          
+          {/* Drawer */}
+          <div className="relative w-[85%] max-w-xs bg-neutral-950 h-full border-r border-[var(--line)] shadow-2xl p-6 flex flex-col gap-6 animate-slide-in">
+            
+            {/* Header with Logo and Close */}
+            <div className="flex items-center justify-between">
+              <div className="brand" style={{minWidth: 'auto'}}>
+                <div className="mark" aria-hidden="true"></div>
+                <div>
+                  <h1 className="text-sm font-bold tracking-wider uppercase">PAMTR™</h1>
+                </div>
+              </div>
+              <button 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 -mr-2 text-[var(--muted)] hover:text-white"
+                aria-label="Close Menu"
+              >
+                <X />
+              </button>
+            </div>
+
+            {/* Links */}
+            <div className="flex flex-col gap-5 overflow-y-auto flex-1 py-2">
+               <a href="#adoption" onClick={() => setIsMobileMenuOpen(false)} className="text-base text-[var(--muted)] hover:text-white font-medium transition-colors">Adoption Kit</a>
+               <a href="#nodes" onClick={() => setIsMobileMenuOpen(false)} className="text-base text-[var(--muted)] hover:text-white font-medium transition-colors">Country Nodes</a>
+               <a href="#charter" onClick={() => setIsMobileMenuOpen(false)} className="text-base text-[var(--muted)] hover:text-white font-medium transition-colors">Charter</a>
+               <a href="#proof" onClick={() => setIsMobileMenuOpen(false)} className="text-base text-[var(--muted)] hover:text-white font-medium transition-colors">Proof Stack™</a>
+               <a href="#seal" onClick={() => setIsMobileMenuOpen(false)} className="text-base text-[var(--muted)] hover:text-white font-medium transition-colors">Trust Seal™</a>
+               <a href="#standards" onClick={() => setIsMobileMenuOpen(false)} className="text-base text-[var(--muted)] hover:text-white font-medium transition-colors">Standards</a>
+               <a href="#governance" onClick={() => setIsMobileMenuOpen(false)} className="text-base text-[var(--muted)] hover:text-white font-medium transition-colors">Governance</a>
+               <Link href="/verify" onClick={() => setIsMobileMenuOpen(false)} className="text-base text-[var(--muted)] hover:text-white font-medium transition-colors">Verify</Link>
+               <a href="#partners" onClick={() => setIsMobileMenuOpen(false)} className="text-base text-[var(--muted)] hover:text-white font-medium transition-colors">Partners</a>
+               <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="text-base text-[var(--gold)] hover:text-white font-bold transition-colors">
+                 {currentUser?.role !== 'public' ? 'Dashboard' : 'Sign In'}
+               </Link>
+            </div>
+
+            {/* Footer Buttons */}
+            <div className="flex flex-col gap-3 pt-4 border-t border-[var(--line)]">
+               <button 
+                  className="btn secondary w-full justify-center" 
+                  onClick={() => { setIsLegalOpen(true); setIsMobileMenuOpen(false); }}
+                >
+                  Legal
+                </button>
+                <button 
+                  className="btn goldGlass shimmer w-full justify-center"
+                  onClick={() => { setIsRegisterOpen(true); setIsMobileMenuOpen(false); }}
+                >
+                  Request Access
+                </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <header className="hero">
         <div className="wrap">
@@ -768,9 +803,9 @@ export default function Home() {
         <div className="wrap">
           <span>© 2025 PAMTR™ / ACRELS. All rights reserved.</span>
           <div className="links">
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
-            <a href="#">Contact</a>
+            <Link href="/privacy">Privacy</Link>
+            <Link href="/terms">Terms</Link>
+            <Link href="/contact">Contact</Link>
           </div>
         </div>
       </footer>

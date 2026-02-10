@@ -291,9 +291,29 @@ input, select, textarea {
 .feature span { display: block; margin-top: 8px; color: var(--muted2); font-size: 13px; }
 .feature .kicker { margin-top: 10px; }
 
-.foot { padding: 28px 0 40px; color: rgba(255, 255, 255, 0.64); font-size: 12px; }
-.foot .wrap { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: center; }
-.foot a { color: rgba(255, 255, 255, 0.78); border-bottom: 1px dotted rgba(255, 255, 255, 0.26); }
+.foot { padding: 40px 0 60px; color: rgba(255, 255, 255, 0.64); font-size: 12px; border-top: 1px solid var(--line); background: var(--bg); }
+.foot .wrap { display: flex; flex-direction: column; justify-content: center; gap: 24px; align-items: center; text-align: center; }
+.foot .links { display: flex; gap: 24px; justify-content: center !important; flex-wrap: wrap; width: 100%; }
+.foot a { color: rgba(255, 255, 255, 0.78); text-decoration: none; transition: color 0.2s; }
+.foot a:hover { color: var(--gold); }
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-slide-in {
+  animation: slideInLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-in.fade-in {
+  animation: fadeIn 0.2s ease-out forwards;
+}
 
 /* Responsive Adjustments */
 @media (max-width: 900px) {
@@ -304,8 +324,13 @@ input, select, textarea {
   .formRow3 { grid-template-columns: 1fr; }
   .featureGrid { grid-template-columns: 1fr; }
   
-  .nav { flex-direction: column; align-items: center; gap: 20px; }
-  .brand { justify-content: center; }
+  /* .nav { flex-direction: column; align-items: center; gap: 20px; } */
+  .nav {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+  .brand { min-width: auto; justify-content: flex-start; }
   .links { justify-content: center; width: 100%; }
   
   .hero h2 { font-size: 32px; }
@@ -361,7 +386,7 @@ dialog::backdrop { background: rgba(0, 0, 0, 0.70); }
 }
 
 @media (max-width: 600px) {
-  .nav { flex-direction: column; align-items: flex-start; gap: 16px; }
+  /* .nav { flex-direction: column; align-items: flex-start; gap: 16px; } */
   .links { justify-content: flex-start; width: 100%; gap: 8px; }
   .links a, .links button { font-size: 12px; padding: 6px 10px; }
   .hero h2 { font-size: 32px; }
