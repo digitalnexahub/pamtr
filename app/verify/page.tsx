@@ -5,6 +5,7 @@ import { Search, CheckCircle, XCircle, ExternalLink, Shield } from 'lucide-react
 import { usePAMTR } from '@/lib/context';
 import { Project, Receipt } from '@/lib/types';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function VerifyPage() {
   const { projects } = usePAMTR();
@@ -52,12 +53,17 @@ export default function VerifyPage() {
       <nav className="fixed top-0 w-full z-50 border-b border-[var(--line)] bg-[var(--bg)]/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded bg-gradient-to-br from-[var(--gold2)] to-[var(--gold3)] shadow-[0_0_15px_rgba(200,162,74,0.3)] group-hover:shadow-[0_0_25px_rgba(200,162,74,0.5)] transition-all duration-500"></div>
-            <div>
-              <h1 className="font-bold text-lg tracking-tight text-white">PAMTR™</h1>
-              <p className="hidden sm:block text-[10px] uppercase tracking-widest text-[var(--gold)] font-medium">Public Verification</p>
-            </div>
-          </Link>
+            <Image 
+               src="/logo.jpeg" 
+                alt="PAMTR" 
+                width={180} 
+                height={72} 
+                className="h-16 w-auto object-contain"
+              />
+             <div className="hidden sm:block border-l border-[var(--gold)]/30 pl-3">
+               <p className="text-[10px] uppercase tracking-widest text-[var(--gold)] font-medium">Public Verification</p>
+             </div>
+           </Link>
           <Link href="/" className="text-sm text-[var(--muted)] hover:text-[var(--gold)] transition-colors">
             Back<span className="hidden sm:inline"> to Home</span>
           </Link>

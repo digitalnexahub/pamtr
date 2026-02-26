@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import clsx from 'clsx';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 // Toast Component
@@ -991,9 +992,14 @@ export default function Dashboard() {
       {/* Mobile Header with Close Button */}
       <div className="md:hidden flex items-center justify-between p-4 border-b border-[var(--line)] mb-2">
         <span className="font-bold text-white flex items-center gap-2">
-          <div className="w-6 h-6 rounded bg-gradient-to-br from-[var(--gold)] to-[var(--gold2)]"></div>
-          PAMTR™
-        </span>
+          <Image 
+            src="/logo.jpeg" 
+            alt="PAMTR" 
+            width={160} 
+            height={60} 
+            className="h-12 w-auto object-contain"
+          />
+         </span>
         <button 
           onClick={() => setIsMobileSidebarOpen(false)}
           className="p-2 hover:bg-[var(--line)] rounded-lg text-[var(--muted)] hover:text-white transition-colors"
@@ -1041,9 +1047,14 @@ export default function Dashboard() {
       {/* Mobile Header with Close Button */}
       <div className="md:hidden flex items-center justify-between p-4 border-b border-[var(--line)] mb-2">
         <span className="font-bold text-white flex items-center gap-2">
-          <div className="w-6 h-6 rounded bg-gradient-to-br from-[var(--gold)] to-[var(--gold2)]"></div>
-          PAMTR™
-        </span>
+          <Image 
+            src="/logo.jpeg" 
+            alt="PAMTR" 
+            width={160} 
+            height={60} 
+            className="h-12 w-auto object-contain"
+          />
+         </span>
         <button 
           onClick={() => setIsMobileSidebarOpen(false)}
           className="p-2 hover:bg-[var(--line)] rounded-lg text-[var(--muted)] hover:text-white transition-colors"
@@ -2816,7 +2827,16 @@ export default function Dashboard() {
           >
              <Menu className="w-6 h-6" />
           </button>
-          <Link href="/" className="font-bold text-xl text-white tracking-tight">PAMTR™ <span className="text-[var(--gold)] text-sm font-normal">Portal</span></Link>
+          <Link href="/" className="flex items-center gap-2">
+            <Image 
+               src="/logo.jpeg" 
+               alt="PAMTR" 
+               width={160} 
+               height={60} 
+               className="h-12 w-auto object-contain"
+             />
+             <span className="text-[var(--gold)] text-sm font-normal">Portal</span>
+           </Link>
         </div>
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-2 bg-[var(--bg)] border border-[var(--line)] rounded-full px-4 py-1.5">

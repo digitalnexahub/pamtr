@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Shield, CheckCircle, FileText, AlertTriangle, ExternalLink, CreditCard, Wallet, Copy, Share2, X, Download, Check, Clock } from 'lucide-react';
 import { usePAMTR } from '@/lib/context';
 import { Project, Receipt } from '@/lib/types';
@@ -152,9 +153,14 @@ export default function ProjectPage() {
       <nav className="border-b border-[var(--line)] bg-[var(--bg)]/80 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
-             <div className="w-8 h-8 rounded bg-gradient-to-br from-[var(--gold)] to-[var(--gold2)]"></div>
-             <span className="font-bold text-lg text-white">PAMTR™</span>
-          </Link>
+             <Image 
+                src="/logo.jpeg" 
+                alt="PAMTR" 
+                width={180} 
+                height={72} 
+                className="h-16 w-auto object-contain"
+              />
+            </Link>
           <div className="flex gap-3 md:gap-4">
             <Link href="/verify" className="text-xs md:text-sm text-[var(--muted)] hover:text-[var(--gold)] flex items-center">Verify<span className="hidden sm:inline">&nbsp;Receipt</span></Link>
             <Link href="/dashboard" className="text-xs md:text-sm text-[var(--muted)] hover:text-[var(--gold)] flex items-center">Portal</Link>

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function TermsPage() {
   return (
@@ -8,8 +9,13 @@ export default function TermsPage() {
       <nav className="border-b border-[var(--line)] bg-[var(--bg)]/80 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
-             <div className="w-8 h-8 rounded bg-gradient-to-br from-[var(--gold)] to-[var(--gold2)]"></div>
-             <span className="font-bold text-lg text-white">PAMTR™</span>
+             <Image 
+               src="/logo.jpeg" 
+               alt="PAMTR" 
+               width={180} 
+               height={72} 
+               className="h-16 w-auto object-contain"
+             />
           </Link>
           <Link href="/" className="text-sm text-[var(--muted)] hover:text-[var(--gold)]">Back to Home</Link>
         </div>

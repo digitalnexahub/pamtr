@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, Upload, CheckCircle, FileText, Menu, X } from "lucide-react";
 import { usePAMTR } from "@/lib/context";
 import { Project } from "@/lib/types";
@@ -145,11 +146,14 @@ export default function Home() {
         <div className="wrap">
           <div className="nav">
             <div className="brand">
-              <div className="mark" aria-hidden="true"></div>
-              <div>
-                <h1>PAMTR™</h1>
-                <small>Pan‑African Mineral Trust Registry</small>
-              </div>
+              <Image 
+                src="/logo.jpeg" 
+                alt="PAMTR Logo" 
+                width={240} 
+                height={120} 
+                className="h-20 w-auto object-contain"
+                priority
+              />
             </div>
             
             {/* Desktop Links */}
@@ -208,10 +212,13 @@ export default function Home() {
             {/* Header with Logo and Close */}
             <div className="flex items-center justify-between">
               <div className="brand" style={{minWidth: 'auto'}}>
-                <div className="mark" aria-hidden="true"></div>
-                <div>
-                  <h1 className="text-sm font-bold tracking-wider uppercase">PAMTR™</h1>
-                </div>
+                <Image 
+                  src="/logo.jpeg" 
+                  alt="PAMTR Logo" 
+                  width={180} 
+                  height={80} 
+                  className="h-14 w-auto object-contain"
+                />
               </div>
               <button 
                 onClick={() => setIsMobileMenuOpen(false)}
