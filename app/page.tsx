@@ -169,19 +169,23 @@ export default function Home() {
               <a href="#governance">Governance</a>
               <Link href="/verify">Verify</Link>
               <a href="#partners">Partners</a>
-              <Link href="/dashboard" className="ml-auto">{currentUser?.role !== 'public' ? 'Dashboard' : 'Sign In'}</Link>
-              <button 
-                className="btn secondary" 
-                onClick={() => setIsLegalOpen(true)}
-              >
-                Legal
-              </button>
-              <button 
-                className="btn goldGlass shimmer"
-                onClick={() => setIsRegisterOpen(true)}
-              >
-                Request Access
-              </button>
+              <div className="ml-auto flex items-center gap-3">
+                <Link href="/dashboard" className="text-sm text-[var(--muted2)] hover:text-white px-2.5 py-2">
+                  {currentUser?.role !== 'public' ? 'Dashboard' : 'Sign In'}
+                </Link>
+                <button 
+                  className="btn secondary" 
+                  onClick={() => setIsLegalOpen(true)}
+                >
+                  Legal
+                </button>
+                <button 
+                  className="btn goldGlass shimmer"
+                  onClick={() => setIsRegisterOpen(true)}
+                >
+                  Request Access
+                </button>
+              </div>
             </div>
 
             {/* Mobile Menu Toggle */}
