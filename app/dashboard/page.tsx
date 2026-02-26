@@ -1035,15 +1035,15 @@ export default function Dashboard() {
     )}>
       {/* Mobile Header with Close Button */}
       <div className="md:hidden flex items-center justify-between p-4 border-b border-[var(--line)] mb-2">
-        <span className="font-bold text-white flex items-center gap-2">
+        <Link href="/" className="font-bold text-white flex items-center gap-2">
           <Image 
             src="/logo.jpeg" 
             alt="PAMTR" 
             width={160} 
             height={60} 
-            className="h-12 w-auto object-contain"
+            className="h-12 w-auto object-contain cursor-pointer"
           />
-         </span>
+         </Link>
         <button 
           onClick={() => setIsMobileSidebarOpen(false)}
           className="p-2 hover:bg-[var(--line)] rounded-lg text-[var(--muted)] hover:text-white transition-colors"
@@ -1090,15 +1090,15 @@ export default function Dashboard() {
     )}>
       {/* Mobile Header with Close Button */}
       <div className="md:hidden flex items-center justify-between p-4 border-b border-[var(--line)] mb-2">
-        <span className="font-bold text-white flex items-center gap-2">
+        <Link href="/" className="font-bold text-white flex items-center gap-2">
           <Image 
             src="/logo.jpeg" 
             alt="PAMTR" 
             width={160} 
             height={60} 
-            className="h-12 w-auto object-contain"
+            className="h-12 w-auto object-contain cursor-pointer"
           />
-         </span>
+         </Link>
         <button 
           onClick={() => setIsMobileSidebarOpen(false)}
           className="p-2 hover:bg-[var(--line)] rounded-lg text-[var(--muted)] hover:text-white transition-colors"

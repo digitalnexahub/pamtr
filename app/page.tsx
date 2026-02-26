@@ -146,14 +146,16 @@ export default function Home() {
         <div className="wrap">
           <div className="nav">
             <div className="brand">
-              <Image 
-                src="/logo.jpeg" 
-                alt="PAMTR Logo" 
-                width={240} 
-                height={120} 
-                className="h-20 w-auto object-contain"
-                priority
-              />
+              <Link href="/">
+                <Image 
+                  src="/logo.jpeg" 
+                  alt="PAMTR Logo" 
+                  width={240} 
+                  height={120} 
+                  className="h-20 w-auto object-contain cursor-pointer"
+                  priority
+                />
+              </Link>
             </div>
             
             {/* Desktop Links */}
@@ -212,13 +214,15 @@ export default function Home() {
             {/* Header with Logo and Close */}
             <div className="flex items-center justify-between">
               <div className="brand" style={{minWidth: 'auto'}}>
-                <Image 
-                  src="/logo.jpeg" 
-                  alt="PAMTR Logo" 
-                  width={180} 
-                  height={80} 
-                  className="h-14 w-auto object-contain"
-                />
+                <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Image 
+                    src="/logo.jpeg" 
+                    alt="PAMTR Logo" 
+                    width={180} 
+                    height={80} 
+                    className="h-14 w-auto object-contain cursor-pointer"
+                  />
+                </Link>
               </div>
               <button 
                 onClick={() => setIsMobileMenuOpen(false)}
