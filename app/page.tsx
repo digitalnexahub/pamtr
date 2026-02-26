@@ -169,7 +169,7 @@ export default function Home() {
               <a href="#governance">Governance</a>
               <Link href="/verify">Verify</Link>
               <a href="#partners">Partners</a>
-              <Link href="/dashboard">{currentUser?.role !== 'public' ? 'Dashboard' : 'Sign In'}</Link>
+              <Link href="/dashboard" className="ml-auto">{currentUser?.role !== 'public' ? 'Dashboard' : 'Sign In'}</Link>
               <button 
                 className="btn secondary" 
                 onClick={() => setIsLegalOpen(true)}

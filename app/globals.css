@@ -99,8 +99,8 @@ body {
   background: linear-gradient(to bottom, rgba(5, 5, 5, 0.88), rgba(5, 5, 5, 0.58));
   border-bottom: 1px solid var(--line);
 }
-.nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; gap: 14px; }
-.brand { display: flex; align-items: center; gap: 12px; }
+.nav { display: flex; align-items: center; padding: 14px 0; gap: 40px; }
+.brand { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .mark {
   width: 38px; height: 38px; border-radius: 14px;
   background:
@@ -119,7 +119,7 @@ body {
 .brand h1 { font-size: 14px; margin: 0; letter-spacing: 0.9px; text-transform: uppercase; }
 .brand small { display: block; color: var(--muted2); font-size: 12px; margin-top: 2px; }
 
-.links { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+.links { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: flex-start; flex: 1; }
 .links a {
   font-size: 13px; color: var(--muted2);
   padding: 8px 10px; border-radius: 14px; border: 1px solid transparent;
@@ -327,7 +327,6 @@ input, select, textarea {
   /* .nav { flex-direction: column; align-items: center; gap: 20px; } */
   .nav {
     flex-direction: row !important;
-    justify-content: space-between !important;
     align-items: center !important;
   }
   .brand { min-width: auto; justify-content: flex-start; }
