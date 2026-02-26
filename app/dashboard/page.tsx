@@ -47,6 +47,9 @@ export default function Dashboard() {
     announcements, setAnnouncements,
     updateAnnouncement,
     deleteAnnouncement,
+    addUser,
+    updateUser,
+    deleteUser,
     logout,
     isInitialized
   } = usePAMTR();
@@ -98,6 +101,8 @@ export default function Dashboard() {
   const [isAddingAnnouncement, setIsAddingAnnouncement] = useState(false);
   const [isAddingReceipt, setIsAddingReceipt] = useState(false);
   const [isIssuingSeal, setIsIssuingSeal] = useState(false);
+  const [isAddingUser, setIsAddingUser] = useState(false);
+  const [isManagingRoles, setIsManagingRoles] = useState(false);
   const [newSealData, setNewSealData] = useState<{projectId: string, level: SealLevel}>({
     projectId: '', level: 'Verified Intake'
   });
@@ -106,6 +111,13 @@ export default function Dashboard() {
   const [projectToRevoke, setProjectToRevoke] = useState<Project | null>(null);
 
   const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [newUserData, setNewUserData] = useState<Partial<User>>({
+    name: '',
+    email: '',
+    role: 'public',
+    password: '',
+    isVerified: true
+  });
 
   const [newProject, setNewProject] = useState<Partial<Project>>({
     name: '',
@@ -878,11 +890,43 @@ export default function Dashboard() {
 
   const handleUpdateUser = () => {
     if (!editingUser) return;
-    setUsers(users.map(u => u.id === editingUser.id ? editingUser : u));
+    updateUser(editingUser);
     setEditingUser(null);
     showToast(`User ${editingUser.name} updated.`, 'success');
+  };
+
+  const handleCreateUser = () => {
+    if (!newUserData.name || !newUserData.email || !newUserData.password) {
+      showToast("Please fill in all required fields.", "error");
+      return;
+    }
+    const newUser: User = {
+      ...newUserData as User,
+      id: `u${Date.now()}`,
+    };
+    addUser(newUser);
+    setIsAddingUser(false);
+    setNewUserData({ name: '', email: '', role: 'public', password: '', isVerified: true });
+    showToast(`User ${newUser.name} created.`, 'success');
+  };
+
+  const handleDeleteUserClick = (id: string) => {
+    const user = users.find(u => u.id === id);
+    if (!user) return;
     
-    addAuditLog('Update User', `Updated user details for ${editingUser.name}`);
+    if (user.role === 'admin') {
+      showToast("Cannot delete admin user.", 'error');
+      return;
+    }
+
+    if (confirm(`Are you sure you want to delete user ${user.name}?`)) {
+      try {
+        deleteUser(id);
+        showToast("User deleted.", 'success');
+      } catch (e: any) {
+        showToast(e.message, 'error');
+      }
+    }
   };
 
   const handleManualIssueSeal = () => {
@@ -1508,7 +1552,123 @@ export default function Dashboard() {
       case 'users':
         return (
            <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-white">Users & Roles</h2>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <h2 className="text-2xl font-bold text-white">Users & Roles</h2>
+              <div className="flex gap-2 w-full md:w-auto">
+                <button 
+                  onClick={() => setIsManagingRoles(!isManagingRoles)}
+                  className="btn secondary text-sm flex items-center gap-2 flex-1 md:flex-none justify-center"
+                >
+                  <Lock className="w-4 h-4"/> Manage Roles
+                </button>
+                <button 
+                  onClick={() => setIsAddingUser(!isAddingUser)}
+                  className="btn goldGlass text-sm flex items-center gap-2 flex-1 md:flex-none justify-center"
+                >
+                  {isAddingUser ? <X className="w-4 h-4"/> : <Plus className="w-4 h-4"/>}
+                  {isAddingUser ? 'Cancel' : 'Add User'}
+                </button>
+              </div>
+            </div>
+
+            {isManagingRoles && (
+              <div className="bg-[var(--panel)] border border-[var(--gold)]/30 p-6 rounded-xl animate-in fade-in slide-in-from-top-4 mb-6">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-lg font-bold text-white">System Roles</h3>
+                  <button className="text-[var(--gold)] text-sm hover:underline flex items-center gap-1">
+                    <Plus className="w-3 h-3"/> Create New Role
+                  </button>
+                </div>
+                <div className="grid gap-3">
+                  {[
+                    { name: 'Admin', desc: 'Full system access, manage users, settings, and logs.' },
+                    { name: 'Verifier', desc: 'Review submissions, issue seals, and manage compliance.' },
+                    { name: 'Submitter', desc: 'Submit mineral projects and manage own dossiers.' },
+                    { name: 'Public', desc: 'Read-only access to the public registry.' }
+                  ].map(role => (
+                    <div key={role.name} className="flex justify-between items-center p-3 bg-[var(--bg)] border border-[var(--line)] rounded-lg">
+                      <div>
+                        <div className="font-bold text-white text-sm uppercase">{role.name}</div>
+                        <div className="text-xs text-[var(--muted)]">{role.desc}</div>
+                      </div>
+                      <button className="text-xs text-[var(--muted)] hover:text-white">Edit Permissions</button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {isAddingUser && (
+              <div className="bg-[var(--panel)] border border-[var(--gold)]/30 p-6 rounded-xl animate-in fade-in slide-in-from-top-4 mb-6">
+                <h3 className="text-lg font-bold text-white mb-4">Create New User</h3>
+                <div className="grid md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-xs text-[var(--muted)] mb-1">Full Name</label>
+                    <input 
+                      type="text" 
+                      className="w-full bg-[var(--bg)] border border-[var(--line)] rounded p-2 text-white"
+                      value={newUserData.name}
+                      onChange={e => setNewUserData({...newUserData, name: e.target.value})}
+                      placeholder="e.g. John Doe"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-[var(--muted)] mb-1">Email</label>
+                    <input 
+                      type="email" 
+                      className="w-full bg-[var(--bg)] border border-[var(--line)] rounded p-2 text-white"
+                      value={newUserData.email}
+                      onChange={e => setNewUserData({...newUserData, email: e.target.value})}
+                      placeholder="email@pamtr.org"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-[var(--muted)] mb-1">Role</label>
+                    <select 
+                      className="w-full bg-[var(--bg)] border border-[var(--line)] rounded p-2 text-white"
+                      value={newUserData.role}
+                      onChange={e => setNewUserData({...newUserData, role: e.target.value as any})}
+                    >
+                      <option value="admin">Admin</option>
+                      <option value="verifier">Verifier</option>
+                      <option value="submitter">Submitter</option>
+                      <option value="public">Public</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs text-[var(--muted)] mb-1">Initial Password</label>
+                    <div className="flex gap-2">
+                        <div className="relative w-full">
+                            <Key className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted)]" />
+                            <input 
+                              type="text" 
+                              className="w-full bg-[var(--bg)] border border-[var(--line)] rounded p-2 pl-9 text-white font-mono"
+                              value={newUserData.password}
+                              onChange={e => setNewUserData({...newUserData, password: e.target.value})}
+                              placeholder="Set password..."
+                            />
+                        </div>
+                        <button 
+                            onClick={() => {
+                                const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+                                const pass = Array(12).fill(0).map(() => chars.charAt(Math.floor(Math.random() * chars.length))).join('');
+                                setNewUserData({...newUserData, password: pass});
+                                showToast("Password generated", "info");
+                            }}
+                            className="btn secondary p-2 flex items-center justify-center"
+                            title="Generate Password"
+                        >
+                            <RefreshCw className="w-4 h-4" />
+                        </button>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={handleCreateUser} className="btn primary">Create User</button>
+                  <button onClick={() => setIsAddingUser(false)} className="btn secondary">Cancel</button>
+                </div>
+              </div>
+            )}
             
             {editingUser && (
               <div className="bg-[var(--panel)] border border-[var(--gold)]/30 p-6 rounded-xl animate-in fade-in slide-in-from-top-4 mb-6">
@@ -1596,19 +1756,28 @@ export default function Dashboard() {
                      {users.map(user => (
                        <tr 
                          key={user.id} 
-                         onClick={() => setEditingUser(user)}
-                         className="border-b border-[var(--line)] text-[var(--muted2)] cursor-pointer hover:bg-[var(--gold)]/5 transition-colors"
+                         className="border-b border-[var(--line)] text-[var(--muted2)] hover:bg-[var(--gold)]/5 transition-colors"
                        >
                          <td className="py-3 font-medium text-white pl-4">{user.name}</td>
                          <td className="py-3"><span className="px-2 py-1 bg-[var(--bg)] border border-[var(--line)] rounded text-xs uppercase">{user.role}</span></td>
                          <td className="py-3 text-sm text-[var(--muted)]">{user.email}</td>
                          <td className="py-3">
-                           <button 
-                             onClick={() => setEditingUser(user)}
-                             className="text-[var(--gold)] text-sm hover:underline"
-                           >
-                             Edit
-                           </button>
+                           <div className="flex gap-3">
+                            <button 
+                              onClick={() => setEditingUser(user)}
+                              className="text-[var(--gold)] text-sm hover:underline flex items-center gap-1"
+                            >
+                              <Edit className="w-3 h-3"/> Edit
+                            </button>
+                            {user.role !== 'admin' && (
+                              <button 
+                                onClick={() => handleDeleteUserClick(user.id)}
+                                className="text-red-400 text-sm hover:underline flex items-center gap-1"
+                              >
+                                <Trash2 className="w-3 h-3"/> Delete
+                              </button>
+                            )}
+                           </div>
                          </td>
                        </tr>
                      ))}
@@ -1621,8 +1790,7 @@ export default function Dashboard() {
                  {users.map(user => (
                    <div 
                      key={user.id} 
-                     onClick={() => setEditingUser(user)}
-                     className="bg-[var(--panel)] border border-[var(--line)] rounded-xl p-4 cursor-pointer hover:bg-[var(--gold)]/5 transition-colors"
+                     className="bg-[var(--panel)] border border-[var(--line)] rounded-xl p-4 hover:bg-[var(--gold)]/5 transition-colors"
                    >
                      <div className="flex justify-between items-start mb-3">
                        <div>
@@ -1631,13 +1799,21 @@ export default function Dashboard() {
                        </div>
                        <span className="px-2 py-1 bg-[var(--bg)] border border-[var(--line)] rounded text-xs uppercase shrink-0 ml-2">{user.role}</span>
                      </div>
-                     <div className="flex justify-end pt-3 border-t border-[var(--line)]">
+                     <div className="flex justify-end gap-3 pt-3 border-t border-[var(--line)]">
                         <button 
-                          onClick={(e) => { e.stopPropagation(); setEditingUser(user); }}
+                          onClick={() => setEditingUser(user)}
                           className="text-[var(--gold)] text-sm font-medium flex items-center gap-1"
                         >
-                          <Edit className="w-4 h-4" /> Edit User
+                          <Edit className="w-4 h-4" /> Edit
                         </button>
+                        {user.role !== 'admin' && (
+                          <button 
+                            onClick={() => handleDeleteUserClick(user.id)}
+                            className="text-red-400 text-sm font-medium flex items-center gap-1"
+                          >
+                            <Trash2 className="w-4 h-4" /> Delete
+                          </button>
+                        )}
                      </div>
                    </div>
                  ))}

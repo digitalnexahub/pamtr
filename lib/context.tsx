@@ -39,6 +39,9 @@ interface PAMTRContextType {
   deleteCountry: (code: string) => void;
   updateAnnouncement: (announcement: Announcement) => void;
   deleteAnnouncement: (id: string) => void;
+  addUser: (user: User) => void;
+  updateUser: (user: User) => void;
+  deleteUser: (id: string) => void;
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   isInitialized: boolean;
@@ -113,6 +116,14 @@ export const PAMTRProvider = ({ children }: { children: ReactNode }) => {
       } catch (e) { console.error("Failed to load announcements", e); }
     }
 
+    // Users
+    const storedUsers = localStorage.getItem('pamtr_users');
+    if (storedUsers) {
+      try {
+        setUsers(JSON.parse(storedUsers));
+      } catch (e) { console.error("Failed to load users", e); }
+    }
+
     setIsInitialized(true);
   }, []);
 
@@ -146,6 +157,12 @@ export const PAMTRProvider = ({ children }: { children: ReactNode }) => {
       localStorage.setItem('pamtr_announcements', JSON.stringify(announcements));
     }
   }, [announcements, isInitialized]);
+
+  useEffect(() => {
+    if (isInitialized) {
+      localStorage.setItem('pamtr_users', JSON.stringify(users));
+    }
+  }, [users, isInitialized]);
 
 
   // Helper actions
@@ -188,6 +205,25 @@ export const PAMTRProvider = ({ children }: { children: ReactNode }) => {
     setAnnouncements(prev => prev.filter(a => a.id !== id));
   };
 
+  const addUser = (newUser: User) => {
+    setUsers(prev => [...prev, newUser]);
+    addAuditLog("USER_ADDED", `Added new user: ${newUser.name} (${newUser.email})`);
+  };
+
+  const updateUser = (updatedUser: User) => {
+    setUsers(prev => prev.map(u => u.id === updatedUser.id ? updatedUser : u));
+    addAuditLog("USER_UPDATED", `Updated user: ${updatedUser.name}`);
+  };
+
+  const deleteUser = (id: string) => {
+    const userToDelete = users.find(u => u.id === id);
+    if (userToDelete?.role === 'admin') {
+      throw new Error("Cannot delete admin user");
+    }
+    setUsers(prev => prev.filter(u => u.id !== id));
+    addAuditLog("USER_DELETED", `Deleted user: ${userToDelete?.name}`);
+  };
+
   const login = async (email: string, password: string) => {
     const user = users.find(u => u.email === email && u.password === password);
     if (user) {
@@ -221,6 +257,9 @@ export const PAMTRProvider = ({ children }: { children: ReactNode }) => {
       deleteCountry,
       updateAnnouncement,
       deleteAnnouncement,
+      addUser,
+      updateUser,
+      deleteUser,
       login,
       logout,
       isInitialized
